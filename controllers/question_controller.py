@@ -4,7 +4,7 @@ class QuestionController():
     def __init__(self):
         self.questions = []
 
-    def add_question(self, question):
+    def add_question(self):
         '''Adding a question'''
         self.questions.append("question")
         print("adding a question")
