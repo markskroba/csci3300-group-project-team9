@@ -5,7 +5,8 @@ while True:
     i = input("Enter: \n1 to add a question\n2 to view added questions\nQ to exit: ")
 
     if i == "1":
-        print("Enter: \n1 for Multiple choice\n2 for Fill in the blank\n3 for Short answer or \n4 for Essay: ")
+        print("Enter: \n1 for Multiple choice\n2 for Fill in the blank")
+        print("3 for Short answer or \n4 for Essay: ")
         questionType = input()
         if questionType == "1":
             # logic for multiple choice question
