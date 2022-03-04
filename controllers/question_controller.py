@@ -1,7 +1,4 @@
 '''Controller'''
-from models.multiple_choice_question import *
-import json
-
 class QuestionController():
     '''Controllers class for questions'''
     def __init__(self):
@@ -9,8 +6,8 @@ class QuestionController():
 
     def add_question(self):
         '''Adding a question'''
-        pass
+        print("adding a question")
 
     def print_questions(self):
         '''Printing all questions'''
-        pass
+        print("printing all questions")
