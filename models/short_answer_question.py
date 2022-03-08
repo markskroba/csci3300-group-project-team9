@@ -4,13 +4,14 @@ from models.question import Question
 class ShortAnswerQuestion(Question):
     '''
     Class for short answer question
-    max_word_count: Int representing maximum word count an answer could have
-    key_points: List of strings representing key points that should be addressed in the answer
+    answer_properties: Object that consists of
+        max_word_count: Int representing maximum word count an answer could have
+        key_points: List of strings representing key points that should be addressed in the answer
     '''
-    def __init__(self, body, when_used, difficulty, max_word_count, key_points):
+    def __init__(self, body, when_used, difficulty, answer_properties):
         super().__init__(body, when_used, difficulty)
-        self.max_word_count = max_word_count
-        self.key_points = key_points
+        self.max_word_count = answer_properties["max_word_count"]
+        self.key_points = answer_properties["key_points"]
 
     def set_max_word_count(self, max_word_count):
         '''Change the max word count'''
