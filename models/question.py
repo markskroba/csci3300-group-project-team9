@@ -1,5 +1,5 @@
 '''Parent model for questions'''
-import datetime
+
 class Question():
     '''
     Parent class for questions
