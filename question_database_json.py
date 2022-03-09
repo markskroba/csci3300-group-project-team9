@@ -2,7 +2,7 @@
 import json
 
 from models.multiple_choice_question import MultipleChoiceQuestion
-from models.short_answer_question import ShortAnswerQuestion 
+from models.short_answer_question import ShortAnswerQuestion
 from models.fill_in_question import FillInQuestion
 
 class QuestionDatabaseJSON():
@@ -21,24 +21,32 @@ class QuestionDatabaseJSON():
         Fetching questions from the JSON file to internal questions variable
         '''
         try:
-            with open(self.filepath, 'r') as file:
+            with open(self.filepath, 'r', encoding="utf8") as file:
                 json_data = json.load(file)
 
                 for question in json_data:
-                    # creating instances of models from objects parsed from json file, then appending them to the variable
+                    # creating instances of models from objects parsed from json file
                     if type(question).__name__ == "MultipleChoiceQuestion":
-                        question = MultipleChoiceQuestion(question.body, question.when_used, question.difficulty, question.answers)
+                        question = MultipleChoiceQuestion(question.body,
+                        question.when_used,
+                        question.difficulty,
+                        question.answers)
                         self.questions.append(question)
                     elif type(question).__name__ == "ShortAnswerQuestion":
-                        question = ShortAnswerQuestion(question.body, question.when_used, question.difficulty, question.answer_properties)
+                        question = ShortAnswerQuestion(question.body,
+                        question.when_used,
+                        question.difficulty,
+                        question.answer_properties)
                         self.questions.append(question)
                     elif type(question).__name__ == "FillInQuestion":
-                        question = FillInQuestion(question.body, question.when_used, question.difficulty, question.answers)
+                        question = FillInQuestion(question.body,
+                        question.when_used,
+                        question.difficulty,
+                        question.answers)
                         self.questions.append(question)
 
-        except:
-            # in case something goes wrong (either file does not exist or it does but with a wrong content), it will be created/overwritten with "[]"
-            with open(self.filepath, 'w') as file:
+        except (FileNotFoundError, json.decoder.JSONDecodeError):
+            with open(self.filepath, 'w', encoding="utf8") as file:
                 file.write("[]")
 
     def submit_question(self, question):
@@ -48,11 +56,11 @@ class QuestionDatabaseJSON():
         '''
         self.questions.append(question)
         # loading previously saved json
-        with open(self.filepath, "r") as file:
+        with open(self.filepath, "r", encoding="utf8") as file:
             json_data = json.load(file)
             print(json_data)
 
-        with open(self.filepath, 'w+') as file:
+        with open(self.filepath, 'w+', encoding="utf8") as file:
             # turning question from class to object
             new_json_data = {
                 "body": question.body,
@@ -63,11 +71,12 @@ class QuestionDatabaseJSON():
             }
 
             # adding model-specific fields
-            if type(question).__name__ == "MultipleChoiceQuestion" or type(question).__name__ == "FillInQuestion":
+            if type(question).__name__ in ("MultipleChoiceQuestion", "FillInQuestion"):
                 new_json_data["answers"] = question.answers
             elif type(question).__name__ == "ShortAnswerQuestion":
-                new_json_data["answer_properties"] = {"max_word_count": question.max_word_count, "key_points": question.key_points}
+                new_json_data["answer_properties"] = {"max_word_count": question.max_word_count,
+                "key_points": question.key_points}
 
-            # adding newly created object to the ones previously created and then writting an array of them into the json file
+            # adding newly created object to the ones previously created and then writting to json
             json_data.append(new_json_data)
             file.write(json.dumps(json_data))
