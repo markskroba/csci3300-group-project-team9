@@ -1,8 +1,13 @@
 '''Model for multiple choice question'''
-from question import Question
+from models.question import Question
 class MultipleChoiceQuestion(Question):
-    '''Class for multiple choice question'''
-    def __init__(self, body, answers, when_used, difficulty):
+    '''
+    Class for multiple choice question
+    answers: List of objects with two properties:
+        body: Text of an answers,
+        correct: Boolean determining whether that answer was correct
+    '''
+    def __init__(self, body, when_used, difficulty, answers):
         super().__init__(body, when_used, difficulty)
         self.answers = answers
 
@@ -12,9 +17,11 @@ class MultipleChoiceQuestion(Question):
 
     def print(self):
         '''Printing question to the terminal'''
-        print(self.body)
-        for count, answer in enumerate(self.answers):
+        super().print()
+        print("Question type: Multiple Choice")
+
+        for counter, answer in enumerate(self.answers):
             correct = ""
             if answer["correct"]:
                 correct = ", CORRECT"
-            print(f'Answer {count+1}: {answer["body"]}{correct}')
+            print(f'Answer {counter+1}: {answer["body"]}{correct}')

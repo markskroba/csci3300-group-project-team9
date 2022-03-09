@@ -1,8 +1,11 @@
 '''Parent model for questions'''
-from abc import ABC, abstractmethod
-
-class Question(ABC):
-    '''Parent class for questions'''
+class Question():
+    '''
+    Parent class for questions
+    body: Text of a question
+    when_used: Object of two elements - first_used, last_used, both instances of datetime
+    difficulty: Integer from 0 to 5
+    '''
     def __init__(self, body, when_used, difficulty):
         self.body = body
         self.first_used = when_used["first_used"]
@@ -13,8 +16,13 @@ class Question(ABC):
         '''Change body of a question'''
         self.body = body
 
-    @abstractmethod
     def print(self):
-        '''Print question to the terminal'''
-        # replace this with pass, this is just for pylint to pass
-        print("question")
+        '''Print question to the terminal (for non-GUI version)'''
+        if self.first_used:
+            print(f'First used: {self.first_used.strftime("%m/%d/%Y, %H:%M:%S")}')
+        if self.last_used:
+            print(f'Last used: {self.last_used.strftime("%m/%d/%Y, %H:%M:%S")}')
+
+        print(f'Difficulty: {self.difficulty}')
+        print(self.body)
+        # the rest will be printed by specific models
