@@ -26,23 +26,32 @@ class QuestionDatabaseJSON():
 
                 for question in json_data:
                     # creating instances of models from objects parsed from json file
-                    if type(question).__name__ == "MultipleChoiceQuestion":
-                        question = MultipleChoiceQuestion(question.body,
-                        question.when_used,
-                        question.difficulty,
-                        question.answers)
+                    if question["type"] == "MultipleChoiceQuestion":
+                        question = MultipleChoiceQuestion(question["body"],
+                        {
+                            "first_used": question["first_used"],
+                            "last_used": question["last_used"]
+                        },
+                        question["difficulty"],
+                        question["answers"])
                         self.questions.append(question)
-                    elif type(question).__name__ == "ShortAnswerQuestion":
-                        question = ShortAnswerQuestion(question.body,
-                        question.when_used,
-                        question.difficulty,
-                        question.answer_properties)
+                    elif question["type"] == "ShortAnswerQuestion":
+                        question = ShortAnswerQuestion(question["body"],
+                        {
+                            "first_used": question["first_used"],
+                            "last_used": question["last_used"]
+                        },
+                        question["difficulty"],
+                        question["answer_properties"])
                         self.questions.append(question)
-                    elif type(question).__name__ == "FillInQuestion":
-                        question = FillInQuestion(question.body,
-                        question.when_used,
-                        question.difficulty,
-                        question.answers)
+                    elif question["type"] == "FillInQuestion":
+                        question = FillInQuestion(question["body"],
+                        {
+                            "first_used": question["first_used"],
+                            "last_used": question["last_used"]
+                        },
+                        question["difficulty"],
+                        question["answers"])
                         self.questions.append(question)
 
         except (FileNotFoundError, json.decoder.JSONDecodeError):

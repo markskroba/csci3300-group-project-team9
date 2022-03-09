@@ -4,13 +4,13 @@ class Question():
     '''
     Parent class for questions
     body: Text of a question
-    when_used: Object of two elements - first_used, last_used, both instances of datetime
+    when_used: Object of two elements - first_used, last_used, both are strings epoch time
     difficulty: Integer from 0 to 5
     '''
     def __init__(self, body, when_used, difficulty):
         self.body = body
-        self.first_used = when_used["first_used"].strftime('%s')
-        self.last_used = when_used["last_used"].strftime('%s')
+        self.first_used = when_used["first_used"]
+        self.last_used = when_used["last_used"]
         self.difficulty = difficulty
 
     def set_body(self, body):
