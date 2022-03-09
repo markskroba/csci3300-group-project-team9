@@ -1,4 +1,5 @@
 '''Parent model for questions'''
+import datetime
 class Question():
     '''
     Parent class for questions
@@ -8,8 +9,8 @@ class Question():
     '''
     def __init__(self, body, when_used, difficulty):
         self.body = body
-        self.first_used = when_used["first_used"]
-        self.last_used = when_used["last_used"]
+        self.first_used = when_used["first_used"].strftime('%s')
+        self.last_used = when_used["last_used"].strftime('%s')
         self.difficulty = difficulty
 
     def set_body(self, body):
