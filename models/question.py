@@ -1,9 +1,10 @@
 '''Parent model for questions'''
+
 class Question():
     '''
     Parent class for questions
     body: Text of a question
-    when_used: Object of two elements - first_used, last_used, both instances of datetime
+    when_used: Object of two elements - first_used, last_used, both are strings epoch time
     difficulty: Integer from 0 to 5
     '''
     def __init__(self, body, when_used, difficulty):
