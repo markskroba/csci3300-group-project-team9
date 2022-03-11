@@ -98,8 +98,28 @@ class QuestionController():
 
             elif question_type_i == "3":
                 # short answer
-                pass
-            
+                while True:
+                    max_word_count = input("Enter the max word count for the answer: ")
+                    try:
+                        max_word_count = int(max_word_count)
+                        break
+                    except TypeError:
+                        print("Wrong input")
+                        continue
+                
+                print("You will now enter key points that should be addressed in a correct answer")
+                key_points = []
+                while True:
+                    key_point = input("Enter one key point or 0 if you don't want to enter any more: ")
+                    if key_point != "0":
+                        key_points.append(key_point)
+                    else:
+                        break
+                
+                question = ShortAnswerQuestion(body, when_used, difficulty, {"max_word_count": max_word_count, "key_points": key_points})
+                self.database.submit_question(question)
+
+
 
     def print_questions(self):
         '''Printing all questions'''
