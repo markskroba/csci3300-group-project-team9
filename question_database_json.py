@@ -67,7 +67,6 @@ class QuestionDatabaseJSON():
         # loading previously saved json
         with open(self.filepath, "r", encoding="utf8") as file:
             json_data = json.load(file)
-            print(json_data)
 
         with open(self.filepath, 'w+', encoding="utf8") as file:
             # turning question from class to object
