@@ -18,11 +18,11 @@ class QuestionController():
 
         while True:
             question_type_i = input("Select question type:\n1 for multiple choice question\n2 for fill in the blank question\n3 for short answer question\n0 to quit: ")
-            if question_type_i not in ["1","2","3", "Q"]:
+            if question_type_i not in ["1","2","3", "0"]:
                 print("Wrong input")
                 continue
-            if question_type_i == "Q":
-                continue
+            if question_type_i == "0":
+                break
             body = input("Enter your question: ")
             # getting dates
             while True:
