@@ -1,4 +1,5 @@
 '''Parent model for questions'''
+from datetime import datetime
 
 class Question():
     '''
@@ -20,9 +21,11 @@ class Question():
     def print(self):
         '''Print question to the terminal (for non-GUI version)'''
         if self.first_used:
-            print(f'First used: {self.first_used.strftime("%m/%d/%Y, %H:%M:%S")}')
+            date = datetime.fromtimestamp(int(self.first_used))
+            print(f'First used: {date.strftime("%m/%d/%Y, %H:%M:%S")}')
         if self.last_used:
-            print(f'Last used: {self.last_used.strftime("%m/%d/%Y, %H:%M:%S")}')
+            date = datetime.fromtimestamp(int(self.last_used))
+            print(f'Last used: {date.strftime("%m/%d/%Y, %H:%M:%S")}')
 
         print(f'Difficulty: {self.difficulty}')
         print(self.body)
