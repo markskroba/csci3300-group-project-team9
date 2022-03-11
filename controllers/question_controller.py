@@ -4,6 +4,10 @@ from datetime import datetime
 
 from question_database_json import QuestionDatabaseJSON
 
+from models.multiple_choice_question import MultipleChoiceQuestion
+from models.short_answer_question import ShortAnswerQuestion
+from models.fill_in_question import FillInQuestion
+
 class QuestionController():
     '''Controllers class for questions'''
     def __init__(self):
@@ -46,14 +50,39 @@ class QuestionController():
                 except ValueError:
                     print("Wrong input")
                     continue
+
+            when_used = {"first_used": first_used, "last_used": last_used}
+            
+            while True:
+                difficulty = input("Enter you question's difficulty, from 1 to 5: ")
+                if difficulty in ["1", "2", "3", "4", "5"]:
+                    difficulty = int(difficulty)
+                    break
+                else:
+                    print("Wrong input")
+
             # getting question arguments
             if question_type_i == "1":
-                pass
+                # multiple choice
+                answers = []
+                print("You will now enter answers for your multiple choice question")
+                answer_counter = 0
+                while True:
+                    answer_body = input(f'Enter answer #{answer_counter}: ')
+                    answer_correct = bool(input("Is this answer true or false? Enter 1 for true and anything else (like 0) for false: ") == "1")
+
+                    answers.append({"body": answer_body, "correct": answer_correct})
+                    i = input("Enter 1 if you want to add one more answer: ")
+                    if i != "1":
+                        break
+
+                question = MultipleChoiceQuestion(body, when_used, difficulty, answers)
+                self.database.submit_question(question)
+
             elif question_type_i == "2":
                 pass
             elif question_type_i == "3":
                 pass
-
             
 
     def print_questions(self):
