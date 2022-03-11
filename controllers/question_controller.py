@@ -1,18 +1,60 @@
 '''Controller'''
 from prettytable import PrettyTable
+from datetime import datetime
 
 from question_database_json import QuestionDatabaseJSON
 
 class QuestionController():
     '''Controllers class for questions'''
     def __init__(self):
-        self.questions = []
         self.database = QuestionDatabaseJSON("data.json")
 
     def add_question(self):
         '''Adding a question'''
-        self.questions.append("question")
-        print("adding a question")
+
+        while True:
+            question_type_i = input("Select question type:\n1 for multiple choice question\n2 for fill in the blank question\n3 for short answer question\n0 to quit: ")
+            if question_type_i not in ["1","2","3", "Q"]:
+                print("Wrong input")
+                continue
+            if question_type_i == "Q":
+                continue
+            body = input("Enter your question: ")
+            # getting dates
+            while True:
+                try:
+                    first_used_i = input("When was this question first used? (month-day-year) (ENTER for now):")
+                    if first_used_i == "":
+                        first_used = int(datetime.today().timestamp())
+                    else:
+                        month, day, year = first_used_i.split("-")
+                        first_used = int(datetime(int(year), int(month), int(day)).timestamp())
+
+                    break
+                except ValueError:
+                    print("Wrong input")
+                    continue
+            while True:
+                try:
+                    last_used_i = input("When was this question last used? (month-day-year) (ENTER for now):")
+                    if last_used_i == "":
+                        last_used = int(datetime.today().timestamp())
+                    else:
+                        month, day, year = last_used_i.split("-")
+                        last_used = int(datetime(int(year), int(month), int(day)).timestamp())
+                    break
+                except ValueError:
+                    print("Wrong input")
+                    continue
+            # getting question arguments
+            if question_type_i == "1":
+                pass
+            elif question_type_i == "2":
+                pass
+            elif question_type_i == "3":
+                pass
+
+            
 
     def print_questions(self):
         '''Printing all questions'''
