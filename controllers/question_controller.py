@@ -72,6 +72,7 @@ class QuestionController():
                     answer_correct = bool(input("Is this answer true or false? Enter 1 for true and anything else (like 0) for false: ") == "1")
 
                     answers.append({"body": answer_body, "correct": answer_correct})
+                    answer_counter += 1
                     i = input("Enter 1 if you want to add one more answer: ")
                     if i != "1":
                         break
@@ -80,8 +81,23 @@ class QuestionController():
                 self.database.submit_question(question)
 
             elif question_type_i == "2":
-                pass
+                # fill in the blank
+                answers = []
+                answer_counter = 0
+                print("You will now enter answers for your fill in the blank question")
+                while True:
+                    answer_body = input(f'Enter answer #{answer_counter}: ')
+                    answers.append(answer_body)
+
+                    i = input("Enter 1 if you want to add one more answer: ")
+                    if i != "1":
+                        break
+
+                question = FillInQuestion(body, when_used, difficulty, answers)
+                self.database.submit_question(question)
+
             elif question_type_i == "3":
+                # short answer
                 pass
             
 
