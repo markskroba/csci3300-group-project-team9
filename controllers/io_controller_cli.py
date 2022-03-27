@@ -1,5 +1,6 @@
 '''Controller'''
 from datetime import datetime
+from prettytable import PrettyTable
 
 class IOControllerCLI():
     '''Class for taking input from CLI'''
@@ -33,7 +34,7 @@ class IOControllerCLI():
 
                 break
             except ValueError:
-                print("Wrong input")
+                self.show_error_message("Wrong input")
                 continue
         while True:
             try:
@@ -46,7 +47,7 @@ class IOControllerCLI():
                     last_used = int(datetime(int(year), int(month), int(day)).timestamp())
                 break
             except ValueError:
-                print("Wrong input")
+                self.show_error_message("Wrong input")
                 continue
 
         when_used = {"first_used": first_used, "last_used": last_used}
@@ -109,3 +110,23 @@ or 0 if you don't want to enter any more: """)
                 break
 
         return max_word_count, key_points
+
+    def get_question_number(self):
+        '''Get number of question that should be printed'''
+        i = input("Enter:\n0 to go back\nQuestion number to print that question: ")
+        return i
+
+    def print_all_question(self, questions):
+        '''Output all saved questions'''
+        table = PrettyTable(["Number", "Question Body", "Question Type"])
+        for count, question in enumerate(questions):
+            table.add_row([count + 1, question.body, type(question).__name__])
+        print(table)
+
+    def print_question(self, questions, i):
+        '''Output specific question based on its number in the table'''
+        questions[int(i) - 1].print()
+
+    def show_error_message(self, text):
+        '''Output error message when needed'''
+        print(text)
