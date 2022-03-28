@@ -4,6 +4,8 @@ from prettytable import PrettyTable
 
 class IOControllerCLI():
     '''Class for taking input from CLI'''
+    def __init__(self):
+        self.methods_used = 0
 
     def get_question_type(self):
         '''Get a question type to determine what type-specific arguments will be needed'''
@@ -12,12 +14,13 @@ class IOControllerCLI():
 2 for fill in the blank question
 3 for short answer question
 0 to quit: """)
-
+        self.methods_used += 1
         return question_type
 
     def get_body(self):
         '''Get body of a question'''
         i = input("Enter your question: ")
+        self.methods_used += 1
         return i
 
     def get_dates(self):
@@ -46,16 +49,18 @@ class IOControllerCLI():
                     month, day, year = last_used_i.split("-")
                     last_used = int(datetime(int(year), int(month), int(day)).timestamp())
                 break
-            except ValueError:
+            except ValueError():
                 self.show_error_message("Wrong input")
                 continue
 
         when_used = {"first_used": first_used, "last_used": last_used}
+        self.methods_used += 1
         return when_used
 
     def get_difficulty(self):
         '''Get difficulty of question'''
         difficulty = input("Enter you question's difficulty, from 1 to 5: ")
+        self.methods_used += 1
         return difficulty
 
     def get_multiple_choice_answers(self):
@@ -73,6 +78,7 @@ Enter 1 for true and anything else (like 0) for false: """) == "1")
             i = input("Enter 1 if you want to add one more answer: ")
             if i != "1":
                 break
+        self.methods_used += 1
         return answers
 
     def get_fill_in_answers(self):
@@ -87,6 +93,7 @@ Enter 1 for true and anything else (like 0) for false: """) == "1")
             i = input("Enter 1 if you want to add one more answer: ")
             if i != "1":
                 break
+        self.methods_used += 1
         return answers
 
     def get_short_answer_properties(self):
@@ -109,11 +116,13 @@ or 0 if you don't want to enter any more: """)
             else:
                 break
 
+        self.methods_used += 1
         return max_word_count, key_points
 
     def get_question_number(self):
         '''Get number of question that should be printed'''
         i = input("Enter:\n0 to go back\nQuestion number to print that question: ")
+        self.methods_used += 1
         return i
 
     def print_all_question(self, questions):
@@ -122,11 +131,14 @@ or 0 if you don't want to enter any more: """)
         for count, question in enumerate(questions):
             table.add_row([count + 1, question.body, type(question).__name__])
         print(table)
+        self.methods_used += 1
 
     def print_question(self, questions, i):
         '''Output specific question based on its number in the table'''
         questions[int(i) - 1].print()
+        self.methods_used += 1
 
     def show_error_message(self, text):
         '''Output error message when needed'''
         print(text)
+        self.methods_used += 1
