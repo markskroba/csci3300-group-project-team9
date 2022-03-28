@@ -68,7 +68,7 @@ class QuestionController():
             try:
                 i = self.io_controller.get_question_number()
                 if int(i) <= len(self.database.questions) + 1 and int(i) > 0:
-                    self.io_controller.print_specific_question(self.database.questions, i)
+                    self.io_controller.print_question(self.database.questions, i)
                 elif int(i) == 0:
                     break
                 else:
