@@ -5,6 +5,7 @@ Our goal is to have a fully fleshed out GUI along with automated testing for mod
 ## Steps
 
 1. Figure out a GUI library in Python for our project
+    1. PySimpleGUI with Tkinter
 2. Main Screen
 3. Add Questions
     1. Selection menu for type of questions
