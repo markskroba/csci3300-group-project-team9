@@ -1,5 +1,5 @@
+'''Window for adding questions'''
 import PySimpleGUI as sg
-import tk
 
 get_question_body = [
     sg.Text("Question body: "),
@@ -8,7 +8,7 @@ get_question_body = [
 
 get_question_difficulty = [
     sg.Text("Question difficulty: "),
-    sg.Spin([i for i in range(1,6)], initial_value=5, k='-DIFFICULTY-'),
+    sg.Spin(list(range(1,6)), initial_value=5, k='-DIFFICULTY-'),
 ]
 
 get_dates = [
@@ -27,16 +27,20 @@ get_dates = [
 submit_button = [
     sg.Button(button_text="Submit", enable_events=True, key="-SUBMIT-")]
 
-inputs = sg.Column([get_dates[0], get_dates[1], get_question_difficulty, get_question_body, submit_button], element_justification="center")
+inputs = sg.Column([
+    get_dates[0],
+    get_dates[1],
+    get_question_difficulty,
+    get_question_body, submit_button], element_justification="center")
 layout = [[inputs]]
 
 window = sg.Window("Add Question", layout)
 
 while True:
     event, values = window.read()
-    if event == "Exit" or event == sg.WIN_CLOSED:
+    if event in ('Exit', sg.WIN_CLOSED):
         break
-    elif event == "-SUBMIT-":
+    if event == "-SUBMIT-":
         body = values["-BODY-"]
         difficulty = values["-DIFFICULTY-"]
         first_used = values["-FIRSTUSED-"]
