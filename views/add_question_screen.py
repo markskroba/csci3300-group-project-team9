@@ -27,11 +27,18 @@ get_dates = [
 submit_button = [
     sg.Button(button_text="Submit", enable_events=True, key="-SUBMIT-")]
 
+select_question_type = [
+    sg.Text("Question type: "),
+    sg.Combo(["Multiple Choice", "Short Answer", "Fill in the Blank"])
+]
+
 inputs = sg.Column([
     get_dates[0],
     get_dates[1],
     get_question_difficulty,
-    get_question_body, submit_button], element_justification="center")
+    get_question_body, submit_button,
+    select_question_type], element_justification="center")
+
 layout = [[inputs]]
 
 window = sg.Window("Add Question", layout)
