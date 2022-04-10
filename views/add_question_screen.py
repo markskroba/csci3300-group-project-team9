@@ -36,8 +36,9 @@ inputs = sg.Column([
     get_dates[0],
     get_dates[1],
     get_question_difficulty,
-    get_question_body, submit_button,
-    select_question_type], element_justification="center")
+    get_question_body,
+    select_question_type,
+    submit_button], element_justification="center")
 
 layout = [[inputs]]
 
