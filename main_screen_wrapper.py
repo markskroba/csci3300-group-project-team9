@@ -13,7 +13,7 @@ class MainWrapper():
             self.question_list.append(item)
 
     def get_details(self, event):
-        '''This method takes in the list of questions from the database, 
+        '''This method takes in the list of questions from the database,
             searches the list for a specific question, then returns the
             questions and answers. Can be expanded to include other
             properties such as date used and difficulty.'''
@@ -26,7 +26,7 @@ class MainWrapper():
     def create_buttons(self, row_length):
         '''Takes in the list of questions from the database and
             creates PySimpleGUI buttons. Will construct them in rows of
-            size row_length. This method returns a list of lists, 
+            size row_length. This method returns a list of lists,
             where the inner lists are row of buttons.'''
         button_list = []
         row = []
