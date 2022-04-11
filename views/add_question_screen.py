@@ -29,8 +29,19 @@ submit_button = [
 
 select_question_type = [
     sg.Text("Question type: "),
-    sg.Combo(["Multiple Choice", "Short Answer", "Fill in the Blank"])
+    sg.Combo(["Multiple Choice", "Short Answer", "Fill in the Blank"], key="-TYPE-"),
+    sg.Button("Select", key="-TYPE SELECT-")
 ]
+
+mc_frame = [sg.Frame("Properties",
+    [[sg.Text("Multiple Choice Properties")]],
+    key="-MC PROPS-", visible=False)]
+fill_in_frame = [sg.Frame("Properties",
+    [[sg.Text("Fill in the Blank Properties")]],
+    key="-FILL IN PROPS-", visible=False)]
+short_answer_frame = [sg.Frame("Properties",
+    [[sg.Text("Short Answer Properties")]],
+    key="-SHORT ANSWER PROPS-", visible=False)]
 
 inputs = sg.Column([
     get_dates[0],
@@ -38,7 +49,10 @@ inputs = sg.Column([
     get_question_difficulty,
     get_question_body,
     select_question_type,
-    submit_button], element_justification="center")
+    submit_button,
+    mc_frame,
+    fill_in_frame,
+    short_answer_frame], element_justification="center", key="-COLUMN-")
 
 layout = [[inputs]]
 
@@ -46,6 +60,7 @@ window = sg.Window("Add Question", layout)
 
 while True:
     event, values = window.read()
+
     if event in ('Exit', sg.WIN_CLOSED):
         break
     if event == "-SUBMIT-":
@@ -53,3 +68,27 @@ while True:
         difficulty = values["-DIFFICULTY-"]
         first_used = values["-FIRSTUSED-"]
         last_used = values["-LASTUSED-"]
+
+        window["-ANSWERS-"].update(visible=False)
+
+    if event == "-TYPE SELECT-" and values["-TYPE-"] != "":
+        print(values["-TYPE-"])
+
+        if values["-TYPE-"] == "Multiple Choice":
+            window["-MC PROPS-"].update(visible=True)
+            window["-FILL IN PROPS-"].update(visible=False)
+            window["-SHORT ANSWER PROPS-"].update(visible=False)
+
+        if values["-TYPE-"] == "Short Answer":
+            window["-MC PROPS-"].update(visible=False)
+            window["-FILL IN PROPS-"].update(visible=False)
+            window["-SHORT ANSWER PROPS-"].update(visible=True)
+
+        if values["-TYPE-"] == "Fill in the Blank":
+            window["-MC PROPS-"].update(visible=False)
+            window["-FILL IN PROPS-"].update(visible=True)
+            window["-SHORT ANSWER PROPS-"].update(visible=False)
+
+    # debug
+    if event not in (sg.TIMEOUT_EVENT, sg.WIN_CLOSED):
+        print(event)
