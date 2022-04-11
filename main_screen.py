@@ -1,6 +1,6 @@
-'''Starter Main Screen'''
-import PySimpleGUI as sg
+''''Starter Main Screen'''
 import string
+import PySimpleGUI as sg
 
 from question_database_json import QuestionDatabaseJSON
 from main_screen_wrapper import get_details, format_answers, create_buttons
@@ -22,14 +22,14 @@ question_list_footer = [
                         [sg.Button('Add a question'), sg.Button('Cancel')]
                     ]
 
-question_list_column = question_list_header + create_buttons(question_list, 3) + question_list_footer
+question_list_column = question_list_header + create_buttons(question_list,3) + question_list_footer
 
 question_body_column = [
             [sg.Text("Question #", size=(20), font=(40), key = '-TITLE-')],
             [sg.Text("Q: Lorem ipsum dolor sit amet, consectetur adipiscing elit,"\
-            " sed do eiusmod tempor incididunt ut labore et dolore magna aliqua?", size=(30,6), key='-QUESTION-')],
+            " sed do eiusmod tempor et dolore magna aliqua?", size=(30,6), key='-QUESTION-')],
             [sg.Text("A: Lorem ipsum dolor sit amet, consectetur adipiscing elit,"\
-            " sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", size=(30,6), key='-ANSWER-')]
+            " sed do eiusmod tempor et dolore magna aliqua.", size=(30,6), key='-ANSWER-')]
 ]
 
 layout = [
