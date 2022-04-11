@@ -36,11 +36,27 @@ select_question_type = [
 mc_frame = [sg.Frame("Properties",
     [[sg.Text("Multiple Choice Properties")]],
     key="-MC PROPS-", visible=False)]
+
 fill_in_frame = [sg.Frame("Properties",
-    [[sg.Text("Fill in the Blank Properties")]],
+    [
+        [
+            sg.Text("Enter corresponding answers (as comma-separated list): "),
+            sg.In(size=(20, 1), enable_events=True, key=""),
+        ]
+    ],
     key="-FILL IN PROPS-", visible=False)]
+
 short_answer_frame = [sg.Frame("Properties",
-    [[sg.Text("Short Answer Properties")]],
+    [
+        [
+            sg.Text("Enter word count for answers: "),
+            sg.In(size=(5, 1), enable_events=True, key=""),
+        ],
+        [
+            sg.Text("Enter points that should be addressed in answers (as comma-separated list): "),
+            sg.In(size=(20, 1), enable_events=True, key=""),
+        ]
+    ],
     key="-SHORT ANSWER PROPS-", visible=False)]
 
 inputs = sg.Column([
