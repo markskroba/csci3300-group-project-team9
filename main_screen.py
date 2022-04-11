@@ -1,10 +1,9 @@
 '''Starter Main Screen'''
-import PySimpleGUI as sg
 import string
+from subprocess import Popen
 
-from subprocess import Popen, PIPE
-from question_database_json import QuestionDatabaseJSON
-from main_screen_wrapper import MainWrapper
+import PySimpleGUI as sg
+from main_screen_wrapper import MainWrapper, format_answers
 
 wrapper = MainWrapper("data.json")
 
@@ -24,9 +23,9 @@ question_list_column = question_list_header + wrapper.create_buttons(3) + \
 question_body_column = [
             [sg.Text("Question #", size=(20), font=(40), key = '-TITLE-')],
             [sg.Text("Q: Lorem ipsum dolor sit amet, consectetur adipiscing elit,"\
-            " sed do eiusmod tempor incididunt ut labore et dolore magna aliqua?", size=(30,4), key='-QUESTION-')],
+            " sed do labore et dolore magna aliqua?", size=(30,4), key='-QUESTION-')],
             [sg.Text("A: Lorem ipsum dolor sit amet, consectetur adipiscing elit,"\
-            " sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", size=(30,8), key='-ANSWER-')]
+            " sed do labore et dolore magna aliqua.", size=(30,8), key='-ANSWER-')]
 ]
 
 layout = [
@@ -38,22 +37,23 @@ layout = [
 ]
 
 window = sg.Window('Group 9', layout)
-process = -1
-open_thread = False
+PROCESS = -1
+OPEN_THREAD = False
 
 while True:
     event, values = window.read()
     if event in (sg.WIN_CLOSED, 'Cancel'):
         break
-    elif event == 'Add a question' and open_thread == False:
-        process = Popen(['python', 'views//add_question_screen.py'])
-        open_thread = True
+    if event == 'Add a question' and OPEN_THREAD is False:
+        # pylint: disable=consider-using-with
+        PROCESS = Popen(['python', 'views//add_question_screen.py'])
+        OPEN_THREAD = True
     elif event not in('Search', 'Add a question'):
         details = wrapper.get_details(event.rstrip(string.digits))
         window["-TITLE-"].update(details[0])
         window["-QUESTION-"].update(details[0])
-        window["-ANSWER-"].update(wrapper.format_answers(details[1]))
-    if process != -1 and process.poll() is not None:
-        open_thread = False
+        window["-ANSWER-"].update(format_answers(details[1]))
+    if PROCESS != -1 and PROCESS.poll() is not None:
+        OPEN_THREAD = False
 
 window.close()
