@@ -34,7 +34,28 @@ select_question_type = [
 ]
 
 mc_frame = [sg.Frame("Properties",
-    [[sg.Text("Multiple Choice Properties")]],
+    [
+        [
+            sg.Text("Answer 1:"),
+            sg.In(size=(20, 1), enable_events=True, key="-ANSWER1-"),
+            sg.Checkbox(text="Correct?", key="-ANSWER1CORRECT-")
+        ],
+        [
+            sg.Text("Answer 2:"),
+            sg.In(size=(20, 1), enable_events=True, key="-ANSWER2-"),
+            sg.Checkbox(text="Correct?", key="-ANSWER2CORRECT-")
+        ],
+        [
+            sg.Text("Answer 3:"),
+            sg.In(size=(20, 1), enable_events=True, key="-ANSWER3-"),
+            sg.Checkbox(text="Correct?", key="-ANSWER3CORRECT-")
+        ],
+        [
+            sg.Text("Answer 4:"),
+            sg.In(size=(20, 1), enable_events=True, key="-ANSWER4-"),
+            sg.Checkbox(text="Correct?", key="-ANSWER4CORRECT-")
+        ]
+    ],
     key="-MC PROPS-", visible=False)]
 
 fill_in_frame = [sg.Frame("Properties",
