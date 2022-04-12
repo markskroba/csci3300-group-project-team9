@@ -6,8 +6,6 @@ class MainWrapper():
     '''Controller class for the main screen'''
     def __init__(self, data_location):
         self.database = QuestionDatabaseJSON(data_location)
-        self.database.fetch_questions()
-
         self.question_list = []
         for item in self.database.questions:
             self.question_list.append(item)
@@ -19,7 +17,7 @@ class MainWrapper():
             properties such as date used and difficulty.'''
         for item in self.question_list:
             if event == item.body:
-                return [item.body, item.answers]
+                return [item.body, item.answers, item.difficulty]
         print("Error - question not in database")
         return []
 
@@ -38,9 +36,29 @@ class MainWrapper():
         button_list.append(row)
         return button_list
 
+    def filtered_buttons(self, criteria):
+        '''Takes in a list of criteria, and returns list of questions that DONT fit that criteria.
+            To be used in main_screen to disable buttons that are in this list.'''
+        filtered = []
+        clean = []
+        for question in self.question_list:
+            if criteria != []:
+                if criteria[0] not in (question.type, '', 'General'):
+                    filtered.append(question.body)
+                elif criteria[1] not in (question.difficulty, ''):
+                    filtered.append(question.body)
+                elif criteria[2] not in (question.first_used, ''):
+                    filtered.append(question.body)
+                elif criteria[3] not in (question.last_used, ''):
+                    filtered.append(question.body)
+                else:
+                    clean.append(question.body)
+
+        return filtered,clean
+
 def format_answers(answer_list):
     '''The list of answers from each question needs to be formatted
-    in a presentable way. This takes the in that list the returns
+    in a presentable way. This takes in that list the returns
     a string that starts with true/false attribute, then answer.'''
     formatted = ""
     for item in answer_list:
