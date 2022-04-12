@@ -2,6 +2,7 @@
 from datetime import datetime
 import PySimpleGUI as sg
 from models.fill_in_question import FillInQuestion
+from models.multiple_choice_question import MultipleChoiceQuestion
 
 from models.short_answer_question import ShortAnswerQuestion
 
@@ -43,23 +44,23 @@ mc_frame = [sg.Frame("Properties",
     [
         [
             sg.Text("Answer 1:"),
-            sg.In(size=(20, 1), enable_events=True, key="-ANSWER1-"),
-            sg.Checkbox(text="Correct?", key="-ANSWER1CORRECT-")
+            sg.In(size=(20, 1), enable_events=True, key="-MCANSWER1-"),
+            sg.Checkbox(text="Correct?", key="-MCANSWER1CORRECT-")
         ],
         [
             sg.Text("Answer 2:"),
-            sg.In(size=(20, 1), enable_events=True, key="-ANSWER2-"),
-            sg.Checkbox(text="Correct?", key="-ANSWER2CORRECT-")
+            sg.In(size=(20, 1), enable_events=True, key="-MCANSWER2-"),
+            sg.Checkbox(text="Correct?", key="-MCANSWER2CORRECT-")
         ],
         [
             sg.Text("Answer 3:"),
-            sg.In(size=(20, 1), enable_events=True, key="-ANSWER3-"),
-            sg.Checkbox(text="Correct?", key="-ANSWER3CORRECT-")
+            sg.In(size=(20, 1), enable_events=True, key="-MCANSWER3-"),
+            sg.Checkbox(text="Correct?", key="-MCANSWER3CORRECT-")
         ],
         [
             sg.Text("Answer 4:"),
-            sg.In(size=(20, 1), enable_events=True, key="-ANSWER4-"),
-            sg.Checkbox(text="Correct?", key="-ANSWER4CORRECT-")
+            sg.In(size=(20, 1), enable_events=True, key="-MCANSWER4-"),
+            sg.Checkbox(text="Correct?", key="-MCANSWER4CORRECT-")
         ]
     ],
     key="-MC PROPS-", visible=False)]
@@ -133,7 +134,26 @@ while True:
 
         # getting type of a question
         if values["-TYPE-"] == "Multiple Choice":
-            pass
+
+            answers = []
+            for i in range(1, 5):
+                if not values[f'-MCANSWER{i}-'] == "":
+                    answers.append({
+                        "body": values[f'-MCANSWER{i}-'],
+                        "correct": values[f'-MCANSWER{i}CORRECT-']
+                    })
+
+            question = MultipleChoiceQuestion(
+                body,
+                {
+                    "first_used": int(datetime.strptime(first_used, "%m/%d/%Y").timestamp()),
+                    "last_used": int(datetime.strptime(last_used, "%m/%d/%Y").timestamp()),
+                },
+                difficulty,
+                answers)
+            db = QuestionDatabaseJSON("data.json")
+            db.submit_question(question)
+
         elif values["-TYPE-"] == "Short Answer":
 
             word_count = values["-WORDCOUNT-"]
@@ -168,7 +188,6 @@ while True:
             print("error")
 
         window.close()
-
 
     # debug
     if event not in (sg.TIMEOUT_EVENT, sg.WIN_CLOSED):
