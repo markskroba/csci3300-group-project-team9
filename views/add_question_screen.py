@@ -1,6 +1,7 @@
 '''Window for adding questions'''
 from datetime import datetime
 import PySimpleGUI as sg
+from models.fill_in_question import FillInQuestion
 
 from models.short_answer_question import ShortAnswerQuestion
 
@@ -150,7 +151,19 @@ while True:
             db.submit_question(question)
 
         elif values["-TYPE-"] == "Fill in the Blank":
-            pass
+
+            answers = [i.strip() for i in values["-FILLINANSWERS-"].split(",")]
+            question = FillInQuestion(
+                body,
+                {
+                    "first_used": int(datetime.strptime(first_used, "%m/%d/%Y").timestamp()),
+                    "last_used": int(datetime.strptime(last_used, "%m/%d/%Y").timestamp()),
+                },
+                difficulty,
+                answers)
+            db = QuestionDatabaseJSON("data.json")
+            db.submit_question(question)
+
         else:
             print("error")
 
