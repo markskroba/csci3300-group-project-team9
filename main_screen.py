@@ -77,7 +77,7 @@ while True:
             window[to_be_disabled].update(visible = False)
         for to_be_enabled in clean_buttons:
             window[to_be_enabled].update(visible = True)
-        
+
     elif event not in('Search', 'Add a question', '-LASTUSED-', '-FIRSTUSED-'):
         details = wrapper.get_details(event.rstrip(string.digits))
         window["-TITLE-"].update(details[0])
