@@ -1,7 +1,9 @@
 '''Window for adding questions'''
+from datetime import datetime
 import PySimpleGUI as sg
 
 from models.short_answer_question import ShortAnswerQuestion
+
 from question_database_json import QuestionDatabaseJSON
 
 get_question_body = [
@@ -65,7 +67,7 @@ fill_in_frame = [sg.Frame("Properties",
     [
         [
             sg.Text("Enter corresponding answers (as comma-separated list): "),
-            sg.In(size=(20, 1), enable_events=True, key=""),
+            sg.In(size=(20, 1), enable_events=True, key="-FILLINANSWERS-"),
         ]
     ],
     key="-FILL IN PROPS-", visible=False)]
@@ -138,7 +140,10 @@ while True:
 
             question = ShortAnswerQuestion(
                 body,
-                {"first_used": first_used, "last_used": last_used},
+                {
+                    "first_used": int(datetime.strptime(first_used, "%m/%d/%Y").timestamp()),
+                    "last_used": int(datetime.strptime(last_used, "%m/%d/%Y").timestamp()),
+                },
                 difficulty,
                 {"max_word_count": word_count, "key_points": keypoints})
             db = QuestionDatabaseJSON("data.json")
