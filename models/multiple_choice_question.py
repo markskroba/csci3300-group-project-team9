@@ -10,6 +10,7 @@ class MultipleChoiceQuestion(Question):
     def __init__(self, body, when_used, difficulty, answers):
         super().__init__(body, when_used, difficulty)
         self.answers = answers
+        self.type = "Multiple Choice"
 
     def add_answer(self, answer):
         '''Adding a new answer'''

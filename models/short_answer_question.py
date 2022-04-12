@@ -12,6 +12,7 @@ class ShortAnswerQuestion(Question):
         super().__init__(body, when_used, difficulty)
         self.max_word_count = answer_properties["max_word_count"]
         self.key_points = answer_properties["key_points"]
+        self.type = "Short Answer"
 
     def set_max_word_count(self, max_word_count):
         '''Change the max word count'''

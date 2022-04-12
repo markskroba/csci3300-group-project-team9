@@ -8,9 +8,19 @@ from main_screen_wrapper import MainWrapper, format_answers
 wrapper = MainWrapper("data.json")
 
 question_list_header = [
-                        [sg.Text('Filter questions')],
-                        [sg.InputText(), sg.Button("Search")]
-                    ]
+                    [sg.Text('Filter questions')],
+                    [sg.InputText(), sg.Button("Search")],
+                    [sg.Radio("Any","QTYPE", default=True),sg.Radio("Multiple Choice","QTYPE"), \
+                        sg.Radio("Fill In","QTYPE"),sg.Radio("Short Answer","QTYPE")
+                    ],
+                    [sg.Spin(list(range(0,6)), initial_value=3, k='-DIFFICULTY-'), \
+                        sg.CalendarButton("First Used", format="%m/%d/%Y", target="-FIRSTUSED-"),
+                        sg.In(size=(10, 1), enable_events=True, key="-FIRSTUSED-"),
+                        sg.CalendarButton("Last Used", format="%m/%d/%Y", target="-LASTUSED-"),
+                        sg.In(size=(10, 1), enable_events=True, key="-LASTUSED-"),
+                    ],
+                    [sg.Text('_'  * 40)]
+                ]
 
 question_list_footer = [
                         [sg.Text('_'  * 40)],
@@ -25,7 +35,8 @@ question_body_column = [
             [sg.Text("Q: Lorem ipsum dolor sit amet, consectetur adipiscing elit,"\
             " sed do labore et dolore magna aliqua?", size=(30,4), key='-QUESTION-')],
             [sg.Text("A: Lorem ipsum dolor sit amet, consectetur adipiscing elit,"\
-            " sed do labore et dolore magna aliqua.", size=(30,8), key='-ANSWER-')]
+            " sed do labore et dolore magna aliqua.", size=(30,8), key='-ANSWER-')],
+            [sg.Text("Difficulty:???", size = (10,1), key='-Q_DIFFICULTY-')]
 ]
 
 layout = [
@@ -48,11 +59,31 @@ while True:
         # pylint: disable=consider-using-with
         PROCESS = Popen(['python', 'views//add_question_screen.py'])
         OPEN_THREAD = True
-    elif event not in('Search', 'Add a question'):
+    elif event == 'Search':
+        criteria = []
+        qtype = ['General', 'Multiple Choice', 'Fill In', 'Short Answer']
+        for i in range(1,5):
+            if values[i] is True:
+                criteria.append(qtype[i-1])
+        if values['-DIFFICULTY-'] != 0:
+            criteria.append(values['-DIFFICULTY-'])
+        else:
+            criteria.append('')
+        criteria.append(values['-FIRSTUSED-'])
+        criteria.append(values['-LASTUSED-'])
+
+        filtered_buttons,clean_buttons = wrapper.filtered_buttons(criteria)
+        for to_be_disabled in filtered_buttons:
+            window[to_be_disabled].update(visible = False)
+        for to_be_enabled in clean_buttons:
+            window[to_be_enabled].update(visible = True)
+        
+    elif event not in('Search', 'Add a question', '-LASTUSED-', '-FIRSTUSED-'):
         details = wrapper.get_details(event.rstrip(string.digits))
         window["-TITLE-"].update(details[0])
         window["-QUESTION-"].update(details[0])
         window["-ANSWER-"].update(format_answers(details[1]))
+        window["-Q_DIFFICULTY-"].update("Difficulty: " + str(details[2]))
     if PROCESS != -1 and PROCESS.poll() is not None:
         OPEN_THREAD = False
 

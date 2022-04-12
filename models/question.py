@@ -13,6 +13,7 @@ class Question():
         self.first_used = when_used["first_used"]
         self.last_used = when_used["last_used"]
         self.difficulty = difficulty
+        self.type = "General"
 
     def set_body(self, body):
         '''Change body of a question'''
