@@ -1,6 +1,9 @@
 '''Window for adding questions'''
 import PySimpleGUI as sg
 
+from models.short_answer_question import ShortAnswerQuestion
+from question_database_json import QuestionDatabaseJSON
+
 get_question_body = [
     sg.Text("Question body: "),
     sg.Multiline(size=(50, 10), key="-BODY-"),
@@ -71,11 +74,11 @@ short_answer_frame = [sg.Frame("Properties",
     [
         [
             sg.Text("Enter word count for answers: "),
-            sg.In(size=(5, 1), enable_events=True, key=""),
+            sg.In(size=(5, 1), enable_events=True, key="-WORDCOUNT-"),
         ],
         [
             sg.Text("Enter points that should be addressed in answers (as comma-separated list): "),
-            sg.In(size=(20, 1), enable_events=True, key=""),
+            sg.In(size=(20, 1), enable_events=True, key="-KEYPOINTS-"),
         ]
     ],
     key="-SHORT ANSWER PROPS-", visible=False)]
@@ -100,13 +103,6 @@ while True:
 
     if event in ('Exit', sg.WIN_CLOSED):
         break
-    if event == "-SUBMIT-":
-        body = values["-BODY-"]
-        difficulty = values["-DIFFICULTY-"]
-        first_used = values["-FIRSTUSED-"]
-        last_used = values["-LASTUSED-"]
-
-        window["-ANSWERS-"].update(visible=False)
 
     if event == "-TYPE SELECT-" and values["-TYPE-"] != "":
         print(values["-TYPE-"])
@@ -125,6 +121,36 @@ while True:
             window["-MC PROPS-"].update(visible=False)
             window["-FILL IN PROPS-"].update(visible=True)
             window["-SHORT ANSWER PROPS-"].update(visible=False)
+
+    if event == "-SUBMIT-":
+        body = values["-BODY-"]
+        difficulty = values["-DIFFICULTY-"]
+        first_used = values["-FIRSTUSED-"]
+        last_used = values["-LASTUSED-"]
+
+        # getting type of a question
+        if values["-TYPE-"] == "Multiple Choice":
+            pass
+        elif values["-TYPE-"] == "Short Answer":
+
+            word_count = values["-WORDCOUNT-"]
+            keypoints = [i.strip() for i in values["-KEYPOINTS-"].split(",")]
+
+            question = ShortAnswerQuestion(
+                body,
+                {"first_used": first_used, "last_used": last_used},
+                difficulty,
+                {"max_word_count": word_count, "key_points": keypoints})
+            db = QuestionDatabaseJSON("data.json")
+            db.submit_question(question)
+
+        elif values["-TYPE-"] == "Fill in the Blank":
+            pass
+        else:
+            print("error")
+
+        window.close()
+
 
     # debug
     if event not in (sg.TIMEOUT_EVENT, sg.WIN_CLOSED):
