@@ -4,7 +4,7 @@ from subprocess import Popen
 
 from datetime import datetime
 import PySimpleGUI as sg
-from main_screen_wrapper import MainWrapper, format_answers
+from main_screen_wrapper import MainWrapper
 from question_database_json import QuestionDatabaseJSON
 
 wrapper = MainWrapper("data.json")
@@ -130,10 +130,12 @@ while True:
 
                 window["-QUESTION-"].update(q.body)
                 window["-Q_DIFFICULTY-"].update(f'Difficulty: {q.difficulty}')
+                first_used = datetime.fromtimestamp(q.first_used).strftime("%b %d, %Y")
+                last_used = datetime.fromtimestamp(q.first_used).strftime("%b %d, %Y")
                 window["-Q_FIRST_USED-"].update(
-                    f'Question first added: {datetime.fromtimestamp(q.first_used).strftime("%b %d, %Y")}')
+                    f'Question first added: {first_used}')
                 window["-Q_LAST_USED-"].update(
-                    f'Question first added: {datetime.fromtimestamp(q.last_used).strftime("%b %d, %Y")}')
+                    f'Question first added: {last_used}')
 
                 # displaying answers
                 if q.type == "Short Answer":
@@ -142,7 +144,8 @@ while True:
                     window["-SHORT ANSWER PROPS-"].update(visible=True)
 
                     window["-WORDCOUNT-"].update(f'Word count: {q.max_word_count}')
-                    window["-KEYPOINTS-"].update(f'Key points to address: {", ".join(q.key_points)}')
+                    window["-KEYPOINTS-"].update(
+                        f'Key points to address: {", ".join(q.key_points)}')
                 elif q.type == "Fill In":
                     window["-MC PROPS-"].update(visible=False)
                     window["-FILL IN PROPS-"].update(visible=True)
@@ -154,9 +157,9 @@ while True:
                     window["-FILL IN PROPS-"].update(visible=False)
                     window["-SHORT ANSWER PROPS-"].update(visible=False)
 
-                    for i in range(len(q.answers)):
-                        window[f'-MCANSWER{i+1}-'].update(f'Answer {i}: {q.answers[i]["body"]}')
-                        window[f'-MCANSWER{i+1}-'].update(visible=True)
+                    for count, answer in enumerate(q.answers):
+                        window[f'-MCANSWER{count+1}-'].update(f'Answer {count}: {answer["body"]}')
+                        window[f'-MCANSWER{count+1}-'].update(visible=True)
 
 
     elif event not in('Search', 'Add a question', '-LASTUSED-', '-FIRSTUSED-'):
