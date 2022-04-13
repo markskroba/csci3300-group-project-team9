@@ -132,6 +132,10 @@ while True:
         first_used = values["-FIRSTUSED-"]
         last_used = values["-LASTUSED-"]
 
+        if body == "" or first_used == "" or last_used == "":
+            sg.popup("You left some of the fields empty")
+            continue
+
         # getting type of a question
         if values["-TYPE-"] == "Multiple Choice":
 
@@ -185,7 +189,8 @@ while True:
             db.submit_question(question)
 
         else:
-            print("error")
+            sg.popup("Question type wasn't specified")
+            continue
 
         window.close()
 
