@@ -33,7 +33,8 @@ def test_short_answer():
     dates = {"first_used": datetime(2021, 7, 7, 1, 2, 1).strftime('%s'),
              "last_used": datetime(2021, 7, 7, 1, 2, 1).strftime('%s')}
     question = ShortAnswerQuestion("This is a short answer question", dates, 4,
-                                   {"max_word_count":350, "key_points": ["point 1", "point 2", "point 3"]})
+                                   {"max_word_count":350,
+                                    "key_points": ["point 1", "point 2", "point 3"]})
     assert question.body == "This is a short answer question"
     assert question.first_used == "1625637721"
     assert question.last_used == "1625637721"
