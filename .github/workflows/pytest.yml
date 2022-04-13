@@ -20,6 +20,7 @@ jobs:
         pip install pylint
         pip install pytest
         python -m pip install -U prettytable
+        pip install PySimpleGUI
     - name: Analysing the code with pylint
       run: |
         pylint --disable=missing-docstring $(git ls-files '*.py')
