@@ -59,6 +59,7 @@ while True:
         # pylint: disable=consider-using-with
         PROCESS = Popen(['python', 'views//add_question_screen.py'])
         OPEN_THREAD = True
+
     elif event == 'Search':
         criteria = []
         qtype = ['General', 'Multiple Choice', 'Fill In', 'Short Answer']
@@ -82,7 +83,7 @@ while True:
         details = wrapper.get_details(event.rstrip(string.digits))
         window["-TITLE-"].update(details[0])
         window["-QUESTION-"].update(details[0])
-        window["-ANSWER-"].update(format_answers(details[1]))
+        window["-ANSWER-"].update(format_answers(details[1], details[3]))
         window["-Q_DIFFICULTY-"].update("Difficulty: " + str(details[2]))
     if PROCESS != -1 and PROCESS.poll() is not None:
         OPEN_THREAD = False
