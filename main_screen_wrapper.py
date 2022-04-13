@@ -17,7 +17,9 @@ class MainWrapper():
             properties such as date used and difficulty.'''
         for item in self.question_list:
             if event == item.body:
-                return [item.body, item.answers, item.difficulty]
+                if item.type == "Short Answer":
+                    return [item.body, item.key_points, item.difficulty, item.type]
+                return [item.body, item.answers, item.difficulty, item.type]
         print("Error - question not in database")
         return []
 
@@ -56,11 +58,21 @@ class MainWrapper():
 
         return filtered,clean
 
-def format_answers(answer_list):
+def format_answers(answer_list, q_type):
     '''The list of answers from each question needs to be formatted
     in a presentable way. This takes in that list the returns
     a string that starts with true/false attribute, then answer.'''
     formatted = ""
-    for item in answer_list:
-        formatted += str(item["correct"]) + ": " + item["body"] + "\n"
+    if q_type == "Short Answer":
+        for item in answer_list:
+            formatted += "Point: " + item + "\n"
+        return formatted
+    if q_type == "Fill In":
+        for item in answer_list:
+            formatted += "Answer: " + item + "\n"
+        return formatted
+    if q_type == "Multiple Choice":
+        for item in answer_list:
+            formatted += str(item["correct"]) + ": " + item["body"] + "\n"
+        return formatted
     return formatted
