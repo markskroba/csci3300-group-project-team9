@@ -35,13 +35,62 @@ db = QuestionDatabaseJSON("data.json")
 question_titles = [q.body for q in db.questions]
 question_list_column = question_list_header + [[
     sg.Listbox(question_titles, size=(50,5), enable_events=True, key="-QLIST-")
-]]
+]] + question_list_footer
+
+mc_frame = [sg.Frame("Properties",
+    [
+        [
+            sg.Text("Answer 1:"),
+            sg.In(size=(20, 1), enable_events=True, key="-MCANSWER1-"),
+            sg.Checkbox(text="Correct?", key="-MCANSWER1CORRECT-")
+        ],
+        [
+            sg.Text("Answer 2:"),
+            sg.In(size=(20, 1), enable_events=True, key="-MCANSWER2-"),
+            sg.Checkbox(text="Correct?", key="-MCANSWER2CORRECT-")
+        ],
+        [
+            sg.Text("Answer 3:"),
+            sg.In(size=(20, 1), enable_events=True, key="-MCANSWER3-"),
+            sg.Checkbox(text="Correct?", key="-MCANSWER3CORRECT-")
+        ],
+        [
+            sg.Text("Answer 4:"),
+            sg.In(size=(20, 1), enable_events=True, key="-MCANSWER4-"),
+            sg.Checkbox(text="Correct?", key="-MCANSWER4CORRECT-")
+        ]
+    ],
+    key="-MC PROPS-", visible=False)]
+
+fill_in_frame = [sg.Frame("Properties",
+    [
+        [
+            sg.Text("Enter corresponding answers (as comma-separated list): "),
+            sg.In(size=(20, 1), enable_events=True, key="-FILLINANSWERS-"),
+        ]
+    ],
+    key="-FILL IN PROPS-", visible=False)]
+
+short_answer_frame = [sg.Frame("Properties",
+    [
+        [
+            sg.Text("", enable_events=True, key="-WORDCOUNT-"),
+        ],
+        [
+            sg.Text("", enable_events=True, key="-KEYPOINTS-"),
+        ]
+    ],
+    key="-SHORT ANSWER PROPS-", visible=False)]
+
 
 question_body_column = [[sg.Text("Question #", size=(20), font=(40), key = '-TITLE-')],
             [sg.Text("", key='-QUESTION-', size=(20,2))],
             [sg.Text("", key="-Q_FIRST_USED-")],
             [sg.Text("", key="-Q_LAST_USED-")],
-            [sg.Text("Difficulty:???", size = (10,1), key='-Q_DIFFICULTY-')]]
+            [sg.Text("Difficulty:???", size = (10,1), key='-Q_DIFFICULTY-')],
+            mc_frame,
+            fill_in_frame,
+            short_answer_frame]
 
 
 layout = [
@@ -94,6 +143,23 @@ while True:
                     f'Question first added: {datetime.fromtimestamp(q.first_used).strftime("%b %d, %Y")}')
                 window["-Q_LAST_USED-"].update(
                     f'Question first added: {datetime.fromtimestamp(q.last_used).strftime("%b %d, %Y")}')
+
+                # displaying answers
+                if q.type == "Short Answer":
+                    window["-MC PROPS-"].update(visible=False)
+                    window["-FILL IN PROPS-"].update(visible=False)
+                    window["-SHORT ANSWER PROPS-"].update(visible=True)
+
+                    window["-WORDCOUNT-"].update(f'Word count: {q.max_word_count}')
+                    window["-KEYPOINTS-"].update(f'Key points to address: {", ".join(q.key_points)}')
+                elif q.type == "Fill in":
+                    window["-MC PROPS-"].update(visible=False)
+                    window["-FILL IN PROPS-"].update(visible=True)
+                    window["-SHORT ANSWER PROPS-"].update(visible=False)
+                elif q.type == "Multiple Choice":
+                    window["-MC PROPS-"].update(visible=True)
+                    window["-FILL IN PROPS-"].update(visible=False)
+                    window["-SHORT ANSWER PROPS-"].update(visible=False)
 
 
     elif event not in('Search', 'Add a question', '-LASTUSED-', '-FIRSTUSED-'):
