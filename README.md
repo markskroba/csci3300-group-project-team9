@@ -28,7 +28,9 @@ Run the following commands to install the right library, then run main.
 
 ```bash
 pip install -r requirements.txt
-python3 main.py
+# You might need to install tkinter globally depending on the OS you are running
+export PYTHONPATH=$(pwd)
+python3 main_screen.py
 ```
 
 ## Usage
