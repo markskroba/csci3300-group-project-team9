@@ -2,10 +2,8 @@
 import string
 from subprocess import Popen
 
-from datetime import datetime
 import PySimpleGUI as sg
-from main_screen_wrapper import MainWrapper
-from question_database_json import QuestionDatabaseJSON
+from main_screen_wrapper import MainWrapper, format_answers
 
 wrapper = MainWrapper("data.json")
 
@@ -29,60 +27,17 @@ question_list_footer = [
                         [sg.Button('Add a question'), sg.Button('Cancel')]
                     ]
 
-# question_list_column = question_list_header + wrapper.create_buttons(3) + \
-#      question_list_footer
-db = QuestionDatabaseJSON("data.json")
-question_titles = [q.body for q in db.questions]
-question_list_column = question_list_header + [[
-    sg.Listbox(question_titles, size=(50,5), enable_events=True, key="-QLIST-")
-]] + question_list_footer
+question_list_column = question_list_header + wrapper.create_buttons(3) + \
+     question_list_footer
 
-mc_frame = [sg.Frame("Properties",
-    [
-        [
-            sg.Text(enable_events=True, key="-MCANSWER1-", visible=False),
-        ],
-        [
-            sg.Text(enable_events=True, key="-MCANSWER2-", visible=False),
-        ],
-        [
-            sg.Text(enable_events=True, key="-MCANSWER3-", visible=False),
-        ],
-        [
-            sg.Text(enable_events=True, key="-MCANSWER4-", visible=False),
-        ]
-    ],
-    key="-MC PROPS-", visible=False)]
-
-fill_in_frame = [sg.Frame("Properties",
-    [
-        [
-            sg.Text("", enable_events=True, key="-FILLINANSWERS-"),
-        ]
-    ],
-    key="-FILL IN PROPS-", visible=False)]
-
-short_answer_frame = [sg.Frame("Properties",
-    [
-        [
-            sg.Text("", enable_events=True, key="-WORDCOUNT-"),
-        ],
-        [
-            sg.Text("", enable_events=True, key="-KEYPOINTS-"),
-        ]
-    ],
-    key="-SHORT ANSWER PROPS-", visible=False)]
-
-
-question_body_column = [[sg.Text("Question #", size=(20), font=(40), key = '-TITLE-')],
-            [sg.Text("", key='-QUESTION-', size=(20,2))],
-            [sg.Text("", key="-Q_FIRST_USED-")],
-            [sg.Text("", key="-Q_LAST_USED-")],
-            [sg.Text("Difficulty:???", size = (10,1), key='-Q_DIFFICULTY-')],
-            mc_frame,
-            fill_in_frame,
-            short_answer_frame]
-
+question_body_column = [
+            [sg.Text("Question #", size=(20), font=(40), key = '-TITLE-')],
+            [sg.Text("Q: Lorem ipsum dolor sit amet, consectetur adipiscing elit,"\
+            " sed do labore et dolore magna aliqua?", size=(30,4), key='-QUESTION-')],
+            [sg.Text("A: Lorem ipsum dolor sit amet, consectetur adipiscing elit,"\
+            " sed do labore et dolore magna aliqua.", size=(30,8), key='-ANSWER-')],
+            [sg.Text("Difficulty:???", size = (10,1), key='-Q_DIFFICULTY-')]
+]
 
 layout = [
     [
@@ -123,49 +78,11 @@ while True:
         for to_be_enabled in clean_buttons:
             window[to_be_enabled].update(visible = True)
 
-    elif event == "-QLIST-":
-        for q in db.questions:
-            if q.body == values["-QLIST-"][0]:
-                print(q)
-
-                window["-QUESTION-"].update(q.body)
-                window["-Q_DIFFICULTY-"].update(f'Difficulty: {q.difficulty}')
-                first_used = datetime.fromtimestamp(q.first_used).strftime("%b %d, %Y")
-                last_used = datetime.fromtimestamp(q.first_used).strftime("%b %d, %Y")
-                window["-Q_FIRST_USED-"].update(
-                    f'Question first added: {first_used}')
-                window["-Q_LAST_USED-"].update(
-                    f'Question first added: {last_used}')
-
-                # displaying answers
-                if q.type == "Short Answer":
-                    window["-MC PROPS-"].update(visible=False)
-                    window["-FILL IN PROPS-"].update(visible=False)
-                    window["-SHORT ANSWER PROPS-"].update(visible=True)
-
-                    window["-WORDCOUNT-"].update(f'Word count: {q.max_word_count}')
-                    window["-KEYPOINTS-"].update(
-                        f'Key points to address: {", ".join(q.key_points)}')
-                elif q.type == "Fill In":
-                    window["-MC PROPS-"].update(visible=False)
-                    window["-FILL IN PROPS-"].update(visible=True)
-                    window["-SHORT ANSWER PROPS-"].update(visible=False)
-
-                    window["-FILLINANSWERS-"].update(f'Answers: {", ".join(q.answers)}')
-                elif q.type == "Multiple Choice":
-                    window["-MC PROPS-"].update(visible=True)
-                    window["-FILL IN PROPS-"].update(visible=False)
-                    window["-SHORT ANSWER PROPS-"].update(visible=False)
-
-                    for count, answer in enumerate(q.answers):
-                        window[f'-MCANSWER{count+1}-'].update(f'Answer {count}: {answer["body"]}')
-                        window[f'-MCANSWER{count+1}-'].update(visible=True)
-
-
     elif event not in('Search', 'Add a question', '-LASTUSED-', '-FIRSTUSED-'):
         details = wrapper.get_details(event.rstrip(string.digits))
         window["-TITLE-"].update(details[0])
         window["-QUESTION-"].update(details[0])
+        window["-ANSWER-"].update(format_answers(details[1]))
         window["-Q_DIFFICULTY-"].update("Difficulty: " + str(details[2]))
     if PROCESS != -1 and PROCESS.poll() is not None:
         OPEN_THREAD = False
