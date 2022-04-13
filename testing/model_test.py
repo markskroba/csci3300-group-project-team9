@@ -39,3 +39,4 @@ def test_short_answer():
     assert question.difficulty == 4
     assert question.max_word_count == 350
     assert question.key_points == ["point 1", "point 2", "point 3"]
+    
