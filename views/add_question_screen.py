@@ -189,7 +189,8 @@ while True:
             db.submit_question(question)
 
         else:
-            print("error")
+            sg.popup("Question type wasn't specified")
+            continue
 
         window.close()
 
