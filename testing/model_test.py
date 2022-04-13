@@ -30,13 +30,13 @@ def test_multiple_choice():
 
 def test_short_answer():
     '''tests that when initiating a short answer question, all properties are set correctly'''
-    dates = {"first_used": datetime(2021, 7, 7, 1, 2, 1).strftime('%s'), "last_used": datetime(2021, 7, 7, 1, 2, 1).strftime('%s')}
-    question = ShortAnswerQuestion("This is a short answer question", dates,
-                                   4, {"max_word_count":350, "key_points": ["point 1", "point 2", "point 3"]})
+    dates = {"first_used": datetime(2021, 7, 7, 1, 2, 1).strftime('%s'),
+             "last_used": datetime(2021, 7, 7, 1, 2, 1).strftime('%s')}
+    question = ShortAnswerQuestion("This is a short answer question", dates, 4,
+                                   {"max_word_count":350, "key_points": ["point 1", "point 2", "point 3"]})
     assert question.body == "This is a short answer question"
     assert question.first_used == "1625637721"
     assert question.last_used == "1625637721"
     assert question.difficulty == 4
     assert question.max_word_count == 350
     assert question.key_points == ["point 1", "point 2", "point 3"]
-    
