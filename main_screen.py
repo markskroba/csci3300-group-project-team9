@@ -65,8 +65,7 @@ mc_frame = [sg.Frame("Properties",
 fill_in_frame = [sg.Frame("Properties",
     [
         [
-            sg.Text("Enter corresponding answers (as comma-separated list): "),
-            sg.In(size=(20, 1), enable_events=True, key="-FILLINANSWERS-"),
+            sg.Text("", enable_events=True, key="-FILLINANSWERS-"),
         ]
     ],
     key="-FILL IN PROPS-", visible=False)]
@@ -152,10 +151,12 @@ while True:
 
                     window["-WORDCOUNT-"].update(f'Word count: {q.max_word_count}')
                     window["-KEYPOINTS-"].update(f'Key points to address: {", ".join(q.key_points)}')
-                elif q.type == "Fill in":
+                elif q.type == "Fill In":
                     window["-MC PROPS-"].update(visible=False)
                     window["-FILL IN PROPS-"].update(visible=True)
                     window["-SHORT ANSWER PROPS-"].update(visible=False)
+
+                    window["-FILLINANSWERS-"].update(f'Answers: {", ".join(q.answers)}')
                 elif q.type == "Multiple Choice":
                     window["-MC PROPS-"].update(visible=True)
                     window["-FILL IN PROPS-"].update(visible=False)
