@@ -21,6 +21,9 @@ jobs:
         pip install pytest
         python -m pip install -U prettytable
         pip install PySimpleGUI
+    - name: set pythonpath
+      run: |
+        echo "PYTHONPATH=./" >> $GITHUB_ENV
     - name: Analysing the code with pylint
       run: |
         pylint --disable=missing-docstring $(git ls-files '*.py')
