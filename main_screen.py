@@ -40,24 +40,16 @@ question_list_column = question_list_header + [[
 mc_frame = [sg.Frame("Properties",
     [
         [
-            sg.Text("Answer 1:"),
-            sg.In(size=(20, 1), enable_events=True, key="-MCANSWER1-"),
-            sg.Checkbox(text="Correct?", key="-MCANSWER1CORRECT-")
+            sg.Text(enable_events=True, key="-MCANSWER1-", visible=False),
         ],
         [
-            sg.Text("Answer 2:"),
-            sg.In(size=(20, 1), enable_events=True, key="-MCANSWER2-"),
-            sg.Checkbox(text="Correct?", key="-MCANSWER2CORRECT-")
+            sg.Text(enable_events=True, key="-MCANSWER2-", visible=False),
         ],
         [
-            sg.Text("Answer 3:"),
-            sg.In(size=(20, 1), enable_events=True, key="-MCANSWER3-"),
-            sg.Checkbox(text="Correct?", key="-MCANSWER3CORRECT-")
+            sg.Text(enable_events=True, key="-MCANSWER3-", visible=False),
         ],
         [
-            sg.Text("Answer 4:"),
-            sg.In(size=(20, 1), enable_events=True, key="-MCANSWER4-"),
-            sg.Checkbox(text="Correct?", key="-MCANSWER4CORRECT-")
+            sg.Text(enable_events=True, key="-MCANSWER4-", visible=False),
         ]
     ],
     key="-MC PROPS-", visible=False)]
@@ -161,6 +153,10 @@ while True:
                     window["-MC PROPS-"].update(visible=True)
                     window["-FILL IN PROPS-"].update(visible=False)
                     window["-SHORT ANSWER PROPS-"].update(visible=False)
+
+                    for i in range(len(q.answers)):
+                        window[f'-MCANSWER{i+1}-'].update(f'Answer {i}: {q.answers[i]["body"]}')
+                        window[f'-MCANSWER{i+1}-'].update(visible=True)
 
 
     elif event not in('Search', 'Add a question', '-LASTUSED-', '-FIRSTUSED-'):
