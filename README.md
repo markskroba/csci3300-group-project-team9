@@ -24,7 +24,7 @@ Our goal is to have a fully fleshed out GUI along with automated testing for mod
 
 ## Install
 
-Run the following commands to install the right library, then run main.
+Run the following commands to install the right library, then run main_screen.py.
 
 ```bash
 pip install -r requirements.txt
@@ -33,7 +33,9 @@ export PYTHONPATH=$(pwd)
 python3 main_screen.py
 ```
 
+NOTE: If you get display errors trying to run the program through hopper, download the files and run it locally.
 ## Usage
 
-After running main.py, the user will be prompted to add a question, print all questions, or quit.
-The questions are stored according to the type of question (i.e. multiple choice, fill in the blank, etc.), and the information is saved in a JSON file managed by question database class.
+After running main_screen.py, a GUI will appear showing search features, available questions,
+and several buttons. The user can click a button to add a question which will open a new screen.
+The user can also select options at the top and click search which will filter the viewable questions.
