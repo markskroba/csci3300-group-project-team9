@@ -39,3 +39,23 @@ NOTE: If you get display errors trying to run the program through hopper, downlo
 After running main_screen.py, a GUI will appear showing search features, available questions,
 and several buttons. The user can click a button to add a question which will open a new screen.
 The user can also select options at the top and click search which will filter the viewable questions.
+
+# Group 9 Sprint 3
+
+The goal for this sprint is full functionality where the user can generate a pdf of a test with the questions in the database.
+
+##Steps
+
+1. Improve on UI
+    1. Finish the rest of the filtering functionality
+    2. Implement functionality for editing questions
+    3. (OPTIONAL) Use list box to display questions in main screen
+    4. (OPTIONAL) Refactor some of the code from last sprint
+2. More Automated Tests
+    1. Create more automated tests for GUI
+    2. Create more automated tests for controllers/wrappers
+3. Make a test from questions available in the database
+    1. Add a screen for creating a test pdf
+    2. Implement actual creation of pdf from test-pdf screen
+4. Make Video
+5. Update README
