@@ -57,9 +57,10 @@ class MainWrapper():
                         < question.last_used:
                         filtered.append(question.body)
                 elif criteria[4] not in (''):
-                    if question.body is not None and criteria[4].lower() not in question.body.lower():
+                    if question.body is not None \
+                        and criteria[4].lower() not in question.body.lower():
                         filtered.append(question.body)
                 else:
                     clean.append(question.body)
-
         return filtered,clean
+        

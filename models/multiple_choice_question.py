@@ -33,4 +33,5 @@ class MultipleChoiceQuestion(Question):
         formatted = ""
         for item in self.answers:
             formatted += str(item["correct"]) + ": " + item["body"] + "\n"
-        return formatted + "\n"
+        return formatted
+        

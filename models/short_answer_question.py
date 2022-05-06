@@ -27,7 +27,7 @@ class ShortAnswerQuestion(Question):
 
     def get_formatted_answers(self):
         '''This formats the answers of the question in a way that works well with the main \
-            screen'''        
+            screen'''
         formatted = ""
         formatted += "Max Word Count: " + str(self.max_word_count) + "\n"
         for point in self.key_points:

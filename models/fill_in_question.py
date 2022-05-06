@@ -24,4 +24,5 @@ class FillInQuestion(Question):
         formatted = ""
         for item in self.answers:
             formatted += "Answer: " + item + "\n"
-        return formatted + "\n"
+        return formatted
+        
