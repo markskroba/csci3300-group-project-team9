@@ -1,6 +1,6 @@
 '''Class that holds the wrapper methods for main screen'''
-import PySimpleGUI as sg
 from datetime import datetime
+import PySimpleGUI as sg
 from question_database_json import QuestionDatabaseJSON
 
 class MainWrapper():
@@ -49,16 +49,17 @@ class MainWrapper():
                 elif criteria[1] not in (question.difficulty, ''):
                     filtered.append(question.body)
                 elif criteria[2] not in (''):
-                    if(int(datetime.strptime(criteria[2], "%m/%d/%Y").timestamp()) < question.first_used):
+                    if int(datetime.strptime(criteria[2], "%m/%d/%Y").timestamp()) \
+                         < question.first_used:
                         filtered.append(question.body)
                 elif criteria[3] not in (question.last_used, ''):
-                    if(int(datetime.strptime(criteria[3], "%m/%d/%Y").timestamp()) < question.last_used):
+                    if int(datetime.strptime(criteria[3], "%m/%d/%Y").timestamp()) \
+                        < question.last_used:
                         filtered.append(question.body)
                 elif criteria[4] not in (''):
-                    if question.body != None and criteria[4].lower() not in question.body.lower():
+                    if question.body is not None and criteria[4].lower() not in question.body.lower():
                         filtered.append(question.body)
                 else:
                     clean.append(question.body)
 
         return filtered,clean
-

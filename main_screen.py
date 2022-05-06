@@ -14,9 +14,9 @@ question_list_header = [
                         sg.Radio("Fill In","QTYPE"),sg.Radio("Short Answer","QTYPE")
                     ],
                     [sg.Spin(list(range(0,6)), initial_value=0, k='-DIFFICULTY-'), \
-                        sg.CalendarButton("First Used Before", format="%m/%d/%Y", target="-FIRSTUSED-"),
+                    sg.CalendarButton("First Used Before", format="%m/%d/%Y", target="-FIRSTUSED-"),
                         sg.In(size=(10, 1), enable_events=True, key="-FIRSTUSED-"),
-                        sg.CalendarButton("Last Used Before", format="%m/%d/%Y", target="-LASTUSED-"),
+                    sg.CalendarButton("Last Used Before", format="%m/%d/%Y", target="-LASTUSED-"),
                         sg.In(size=(10, 1), enable_events=True, key="-LASTUSED-"),
                     ],
                     [sg.Text('_'  * 40)]
