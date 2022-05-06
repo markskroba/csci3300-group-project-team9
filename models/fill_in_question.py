@@ -17,4 +17,9 @@ class FillInQuestion(Question):
         super().print()
         print("Question type: Fill in the blank question")
         print(f'Answers: {", ".join(self.answers)}')
-        
+
+    def get_formatted_answers(self):
+        formatted = ""
+        for item in self.answers:
+            formatted += "Answer: " + item + "\n"
+        return formatted

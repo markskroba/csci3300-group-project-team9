@@ -3,20 +3,20 @@ import string
 from subprocess import Popen
 
 import PySimpleGUI as sg
-from main_screen_wrapper import MainWrapper, format_answers
+from main_screen_wrapper import MainWrapper
 
 wrapper = MainWrapper("data.json")
 
 question_list_header = [
                     [sg.Text('Filter questions')],
-                    [sg.InputText(), sg.Button("Search")],
+                    [sg.InputText(key='-SEARCHTEXT-'), sg.Button("Search")],
                     [sg.Radio("Any","QTYPE", default=True),sg.Radio("Multiple Choice","QTYPE"), \
                         sg.Radio("Fill In","QTYPE"),sg.Radio("Short Answer","QTYPE")
                     ],
-                    [sg.Spin(list(range(0,6)), initial_value=3, k='-DIFFICULTY-'), \
-                        sg.CalendarButton("First Used", format="%m/%d/%Y", target="-FIRSTUSED-"),
+                    [sg.Spin(list(range(0,6)), initial_value=0, k='-DIFFICULTY-'), \
+                        sg.CalendarButton("First Used Before", format="%m/%d/%Y", target="-FIRSTUSED-"),
                         sg.In(size=(10, 1), enable_events=True, key="-FIRSTUSED-"),
-                        sg.CalendarButton("Last Used", format="%m/%d/%Y", target="-LASTUSED-"),
+                        sg.CalendarButton("Last Used Before", format="%m/%d/%Y", target="-LASTUSED-"),
                         sg.In(size=(10, 1), enable_events=True, key="-LASTUSED-"),
                     ],
                     [sg.Text('_'  * 40)]
@@ -63,15 +63,16 @@ while True:
     elif event == 'Search':
         criteria = []
         qtype = ['General', 'Multiple Choice', 'Fill In', 'Short Answer']
-        for i in range(1,5):
+        for i in range(0,4):
             if values[i] is True:
-                criteria.append(qtype[i-1])
+                criteria.append(qtype[i])
         if values['-DIFFICULTY-'] != 0:
             criteria.append(values['-DIFFICULTY-'])
         else:
             criteria.append('')
         criteria.append(values['-FIRSTUSED-'])
         criteria.append(values['-LASTUSED-'])
+        criteria.append(values['-SEARCHTEXT-'])
 
         filtered_buttons,clean_buttons = wrapper.filtered_buttons(criteria)
         for to_be_disabled in filtered_buttons:
@@ -83,7 +84,7 @@ while True:
         details = wrapper.get_details(event.rstrip(string.digits))
         window["-TITLE-"].update(details[0])
         window["-QUESTION-"].update(details[0])
-        window["-ANSWER-"].update(format_answers(details[1], details[3]))
+        window["-ANSWER-"].update(details[1])
         window["-Q_DIFFICULTY-"].update("Difficulty: " + str(details[2]))
     if PROCESS != -1 and PROCESS.poll() is not None:
         OPEN_THREAD = False

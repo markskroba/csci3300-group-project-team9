@@ -1,5 +1,6 @@
 '''Class that holds the wrapper methods for main screen'''
 import PySimpleGUI as sg
+from datetime import datetime
 from question_database_json import QuestionDatabaseJSON
 
 class MainWrapper():
@@ -17,9 +18,7 @@ class MainWrapper():
             properties such as date used and difficulty.'''
         for item in self.question_list:
             if event == item.body:
-                if item.type == "Short Answer":
-                    return [item.body, item.key_points, item.difficulty, item.type]
-                return [item.body, item.answers, item.difficulty, item.type]
+                return [item.body, item.get_formatted_answers(), item.difficulty, item.type]
         print("Error - question not in database")
         return []
 
@@ -49,30 +48,17 @@ class MainWrapper():
                     filtered.append(question.body)
                 elif criteria[1] not in (question.difficulty, ''):
                     filtered.append(question.body)
-                elif criteria[2] not in (question.first_used, ''):
-                    filtered.append(question.body)
+                elif criteria[2] not in (''):
+                    if(int(datetime.strptime(criteria[2], "%m/%d/%Y").timestamp()) < question.first_used):
+                        filtered.append(question.body)
                 elif criteria[3] not in (question.last_used, ''):
-                    filtered.append(question.body)
+                    if(int(datetime.strptime(criteria[3], "%m/%d/%Y").timestamp()) < question.last_used):
+                        filtered.append(question.body)
+                elif criteria[4] not in (''):
+                    if question.body != None and criteria[4].lower() not in question.body.lower():
+                        filtered.append(question.body)
                 else:
                     clean.append(question.body)
 
         return filtered,clean
 
-def format_answers(answer_list, q_type):
-    '''The list of answers from each question needs to be formatted
-    in a presentable way. This takes in that list the returns
-    a string that starts with true/false attribute, then answer.'''
-    formatted = ""
-    if q_type == "Short Answer":
-        for item in answer_list:
-            formatted += "Point: " + item + "\n"
-        return formatted
-    if q_type == "Fill In":
-        for item in answer_list:
-            formatted += "Answer: " + item + "\n"
-        return formatted
-    if q_type == "Multiple Choice":
-        for item in answer_list:
-            formatted += str(item["correct"]) + ": " + item["body"] + "\n"
-        return formatted
-    return formatted
