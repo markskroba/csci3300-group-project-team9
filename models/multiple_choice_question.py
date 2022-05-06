@@ -26,3 +26,12 @@ class MultipleChoiceQuestion(Question):
             if answer["correct"]:
                 correct = ", CORRECT"
             print(f'Answer {counter+1}: {answer["body"]}{correct}')
+
+    def get_formatted_answers(self):
+        '''This formats the answers of the question in a way that works well with the main \
+            screen'''
+        formatted = ""
+        for item in self.answers:
+            formatted += str(item["correct"]) + ": " + item["body"] + "\n"
+        return formatted
+        

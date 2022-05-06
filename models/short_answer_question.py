@@ -24,3 +24,12 @@ class ShortAnswerQuestion(Question):
         print("Question type: Short answer")
         print(f'Max word count: {self.max_word_count}')
         print(f'Key points: {", ".join(self.key_points)}')
+
+    def get_formatted_answers(self):
+        '''This formats the answers of the question in a way that works well with the main \
+            screen'''
+        formatted = ""
+        formatted += "Max Word Count: " + str(self.max_word_count) + "\n"
+        for point in self.key_points:
+            formatted += "Point: " + str(point) + "\n"
+        return formatted
