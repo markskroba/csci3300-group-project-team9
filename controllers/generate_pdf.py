@@ -35,6 +35,15 @@ def fill_document(doc, questions):
             """
             doc.append(NoEscape(question_latex))
 
+        elif question.type == "Fill In":
+            question_body = question.body.replace("_", "\\hrulefill")
+            question_latex = f"""
+\\vspace{{5mm}}
+\\question Fill in the blanks: {question_body} 
+            """
+            doc.append(NoEscape(question_latex))
+
+
 def generate_pdf(questions):
     '''Generating PDF'''
 
