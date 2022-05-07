@@ -23,6 +23,18 @@ def fill_document(doc, questions):
             """
             doc.append(NoEscape(question_latex))
 
+        elif question.type == "Short Answer":
+            keypoints = "\n".join([f"\\part {x}" for x in question.key_points])
+            question_latex = f"""
+\\vspace{{5mm}}
+\\question Answer the following question in a short essay with no more than {question.max_word_count} words, while addressing the following key points:
+\\begin{{parts}}
+{keypoints}
+\\end{{parts}}
+\\vspace{{\\stretch{{{round(int(question.max_word_count) / 50)}}}}}
+            """
+            doc.append(NoEscape(question_latex))
+
 def generate_pdf(questions):
     '''Generating PDF'''
 
