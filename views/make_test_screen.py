@@ -17,10 +17,14 @@ Before adding, you will be able to preview them""",
 size=(44, 3))],
 ]
 
+preview_body = sg.Text("", font=(40))
+preview_type = sg.Text("")
+preview_difficulty = sg.Text("")
+
 header_preview = [
-        [sg.Text("Question body", font=(40))],
-        [sg.Text("Question type")],
-        [sg.Text("Question difficulty")]
+        [preview_body],
+        [preview_type],
+        [preview_difficulty]
 ]
 
 saved_questions_listbox = sg.Listbox(saved_question_titles,
@@ -63,6 +67,11 @@ while True:
     if event == "-SAVEDQUESTIONS-":
         i = saved_questions_listbox.get_indexes()[0]
         selected_questions.append(saved_questions[i])
+
+        # preview
+        preview_body.update(value=f'Q: {saved_questions[i].body}')
+        preview_type.update(value=f'Type: {saved_questions[i].type}')
+        preview_difficulty.update(value=f'Difficulty: {saved_questions[i].difficulty}')
 
         selected_questions_titles = [x.body for x in selected_questions]
         selected_questions_listbox.update(values=selected_questions_titles)
