@@ -66,3 +66,10 @@ while True:
 
         selected_questions_titles = [x.body for x in selected_questions]
         selected_questions_listbox.update(values=selected_questions_titles)
+
+    elif event == "-SELECTEDQUESTIONS-":
+        i = selected_questions_listbox.get_indexes()[0]
+        selected_questions.pop(i)
+
+        selected_questions_titles = [x.body for x in selected_questions]
+        selected_questions_listbox.update(values=selected_questions_titles)
