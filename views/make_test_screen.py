@@ -1,5 +1,13 @@
 '''Window for making tests out of saved questions'''
 import PySimpleGUI as sg
+from question_database_json import QuestionDatabaseJSON
+
+db = QuestionDatabaseJSON("data.json")
+
+saved_questions = db.questions
+saved_question_titles = [x.body for x in saved_questions]
+selected_questions = []
+selected_questions_titles = [x.body for x in selected_questions]
 
 note = [
     [sg.Text("NOTE: Make new test")],
@@ -16,8 +24,14 @@ header_preview = [
 ]
 
 listboxes = [
-    sg.Listbox(["test1", "test2"], size=(50,10), enable_events=True, key="-SAVEDQUESTIONS-"),
-    sg.Listbox(["test1", "test2"], size=(50,10), enable_events=True, key="-SELECTEDQUESTIONS-"),
+    sg.Listbox(saved_question_titles,
+        size=(50,10),
+        enable_events=True,
+        key="-SAVEDQUESTIONS-"),
+    sg.Listbox(selected_questions_titles,
+        size=(50,10),
+        enable_events=True,
+        key="-SELECTEDQUESTIONS-"),
 ]
 
 buttons = [
