@@ -32,7 +32,7 @@ def fill_document(doc, questions):
 \\begin{{parts}}
 {keypoints}
 \\end{{parts}}
-\\vspace{{\\stretch{{{round(int(question.max_word_count) / 50)}}}}}
+\\vspace{{{round(int(question.max_word_count) / 50)}0cm}}
             """
             doc.append(NoEscape(question_latex))
 
