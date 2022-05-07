@@ -43,7 +43,7 @@ listboxes = [saved_questions_listbox] + [selected_questions_listbox]
 buttons = [
     [
         sg.Button("Generate PDF", enable_events=True, key="-GENERATEPDF-"),
-        sg.Button("Clear selection")
+        sg.Button("Clear selection", enable_events=True, key="-CLEARSELECTION-")
     ]
 ]
 
@@ -80,6 +80,11 @@ while True:
         i = selected_questions_listbox.get_indexes()[0]
         selected_questions.pop(i)
 
+        selected_questions_titles = [x.body for x in selected_questions]
+        selected_questions_listbox.update(values=selected_questions_titles)
+
+    elif event == "-CLEARSELECTION-":
+        selected_questions = []
         selected_questions_titles = [x.body for x in selected_questions]
         selected_questions_listbox.update(values=selected_questions_titles)
 
