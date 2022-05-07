@@ -42,10 +42,12 @@ listboxes = [saved_questions_listbox] + [selected_questions_listbox]
 
 
 buttons = [
+    [sg.Text("Test name: "),
+    sg.In(size=(20, 1), enable_events=True, key="-TESTNAME-")],
     [
         sg.Button("Generate PDF", enable_events=True, key="-GENERATEPDF-"),
         sg.Button("Clear selection", enable_events=True, key="-CLEARSELECTION-")
-    ]
+    ],
 ]
 
 layout = [[
@@ -96,4 +98,4 @@ while True:
         print(selected_questions)
         print(len(selected_questions))
 
-        generate_pdf(selected_questions)
+        generate_pdf(values["-TESTNAME-"], selected_questions)

@@ -28,6 +28,7 @@ def fill_document(doc, questions):
             question_latex = f"""
 \\vspace{{5mm}}
 \\question Answer the following question in a short essay with no more than {question.max_word_count} words, while addressing the following key points:
+\\question {question.body}
 \\begin{{parts}}
 {keypoints}
 \\end{{parts}}
@@ -44,11 +45,11 @@ def fill_document(doc, questions):
             doc.append(NoEscape(question_latex))
 
 
-def generate_pdf(questions):
+def generate_pdf(test_name, questions):
     '''Generating PDF'''
 
     doc = Document(documentclass='exam')
-    doc.preamble.append(Command('title', 'Awesome Title'))
+    doc.preamble.append(Command('title', test_name))
     doc.preamble.append(Command('date', NoEscape(r'\today')))
     doc.append(NoEscape(r'\maketitle'))
     doc.append(NoEscape(STUDENTS_NAME))
