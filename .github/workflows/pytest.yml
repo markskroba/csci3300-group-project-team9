@@ -21,6 +21,7 @@ jobs:
         pip install pytest
         python -m pip install -U prettytable
         pip install PySimpleGUI
+        pip install -r requirements.txt
     - name: set pythonpath
       run: |
         echo "PYTHONPATH=./" >> $GITHUB_ENV
