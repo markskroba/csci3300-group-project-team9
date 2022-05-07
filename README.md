@@ -29,6 +29,7 @@ Run the following commands to install the right library, then run main_screen.py
 ```bash
 pip install -r requirements.txt
 # You might need to install tkinter globally depending on the OS you are running
+# To make PDF files you will need Latex preprocessor, the easiest way of getting one would be installing some Tex distribution like MiKTeX (https://miktex.org/download)
 export PYTHONPATH=$(pwd)
 python3 main_screen.py
 ```
