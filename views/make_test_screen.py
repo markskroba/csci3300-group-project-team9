@@ -10,10 +10,10 @@ selected_questions = []
 selected_questions_titles = [x.body for x in selected_questions]
 
 note = [
-    [sg.Text("NOTE: Make new test")],
+    [sg.Text("Make new test", font=(40))],
     [sg.Text(
-"""Pick questions that you previously saved to be a part of this new test.
-Before adding, you will be able to preview them""",
+"""Click on questions from the left list to add them to this test
+Click on question from the right list to remove them from this test""",
 size=(44, 3))],
 ]
 
@@ -77,7 +77,10 @@ while True:
         selected_questions_listbox.update(values=selected_questions_titles)
 
     elif event == "-SELECTEDQUESTIONS-":
-        i = selected_questions_listbox.get_indexes()[0]
+        selected_items = selected_questions_listbox.get_indexes()
+        if len(selected_items) == 0:
+            continue
+        i = selected_items[0]
         selected_questions.pop(i)
 
         selected_questions_titles = [x.body for x in selected_questions]
