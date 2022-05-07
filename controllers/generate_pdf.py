@@ -54,5 +54,5 @@ def generate_pdf(test_name, questions):
     doc.append(NoEscape(r'\maketitle'))
     doc.append(NoEscape(STUDENTS_NAME))
     fill_document(doc, questions)
-    doc.generate_pdf('temp/example', clean_tex=False)
-    doc.generate_tex('temp/example')
+    doc.generate_pdf(f'temp/{test_name}', clean_tex=False)
+    doc.generate_tex(f'temp/{test_name}')
