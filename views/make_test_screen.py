@@ -6,27 +6,35 @@ note = [
     [sg.Text(
 """Pick questions that you previously saved to be a part of this new test.
 Before adding, you will be able to preview them""",
-size=(40, 3))],
-    [
-        sg.Button("Generate PDF"),
-        sg.Button("Clear selection")
-    ]
+size=(44, 3))],
 ]
 
 header_preview = [
-        [sg.Text("Question body")],
+        [sg.Text("Question body", font=(40))],
         [sg.Text("Question type")],
         [sg.Text("Question difficulty")]
 ]
-
-# header = [header_text, header_preview]
 
 listboxes = [
     sg.Listbox(["test1", "test2"], size=(50,10), enable_events=True, key="-SAVEDQUESTIONS-"),
     sg.Listbox(["test1", "test2"], size=(50,10), enable_events=True, key="-SELECTEDQUESTIONS-"),
 ]
 
-layout = [[header_preview, listboxes, note ]]
+buttons = [
+    [
+        sg.Button("Generate PDF"),
+        sg.Button("Clear selection")
+    ]
+]
+
+layout = [[
+    sg.Column(note),
+    sg.VSeparator(),
+    sg.Column(header_preview)
+    ],
+    listboxes,
+    buttons
+]
 
 window = sg.Window("Make test", layout)
 
