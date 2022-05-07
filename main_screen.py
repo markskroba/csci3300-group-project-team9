@@ -24,7 +24,11 @@ question_list_header = [
 
 question_list_footer = [
                         [sg.Text('_'  * 40)],
-                        [sg.Button('Add a question'), sg.Button('Cancel')]
+                        [
+                            sg.Button('Add a question'),
+                            sg.Button('Make new test'),
+                            sg.Button('Cancel')
+                        ]
                     ]
 
 question_list_column = question_list_header + wrapper.create_buttons(3) + \
@@ -58,6 +62,11 @@ while True:
     if event == 'Add a question' and OPEN_THREAD is False:
         # pylint: disable=consider-using-with
         PROCESS = Popen(['python', 'views//add_question_screen.py'])
+        OPEN_THREAD = True
+
+    if event == 'Make new test' and OPEN_THREAD is False:
+        # pylint: disable=consider-using-with
+        PROCESS = Popen(['python', 'views//make_test_screen.py'])
         OPEN_THREAD = True
 
     elif event == 'Search':
