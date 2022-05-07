@@ -23,16 +23,18 @@ header_preview = [
         [sg.Text("Question difficulty")]
 ]
 
-listboxes = [
-    sg.Listbox(saved_question_titles,
+saved_questions_listbox = sg.Listbox(saved_question_titles,
         size=(50,10),
         enable_events=True,
-        key="-SAVEDQUESTIONS-"),
-    sg.Listbox(selected_questions_titles,
+        key="-SAVEDQUESTIONS-")
+
+selected_questions_listbox = sg.Listbox(selected_questions_titles,
         size=(50,10),
         enable_events=True,
-        key="-SELECTEDQUESTIONS-"),
-]
+        key="-SELECTEDQUESTIONS-")
+
+listboxes = [saved_questions_listbox] + [selected_questions_listbox]
+
 
 buttons = [
     [
@@ -57,3 +59,10 @@ while True:
 
     if event in ('Exit', sg.WIN_CLOSED):
         break
+
+    if event == "-SAVEDQUESTIONS-":
+        i = saved_questions_listbox.get_indexes()[0]
+        selected_questions.append(saved_questions[i])
+
+        selected_questions_titles = [x.body for x in selected_questions]
+        selected_questions_listbox.update(values=selected_questions_titles)
