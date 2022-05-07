@@ -1,5 +1,6 @@
 '''Window for making tests out of saved questions'''
 import PySimpleGUI as sg
+from controllers.generate_pdf import generate_pdf
 from question_database_json import QuestionDatabaseJSON
 
 db = QuestionDatabaseJSON("data.json")
@@ -94,3 +95,5 @@ while True:
     elif event == "-GENERATEPDF-":
         print(selected_questions)
         print(len(selected_questions))
+
+        generate_pdf(selected_questions)
