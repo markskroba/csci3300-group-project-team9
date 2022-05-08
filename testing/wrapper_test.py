@@ -51,9 +51,3 @@ def test_filtered_buttons_difficulty():
             assert item.difficulty != '5'
         if item in clean:
             assert item.difficulty != '5'
-
-test_get_details_false()
-test_get_details_true()
-test_create_buttons_size()
-test_filtered_buttons_type()
-test_filtered_buttons_difficulty()
