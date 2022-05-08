@@ -1,5 +1,4 @@
 '''Testing main_screen_wrapper.py, which is the functions that main_screen uses'''
-import os
 from main_screen_wrapper import MainWrapper
 
 wrapper = MainWrapper("/home/runner/work/csci3300-group-project-team9/"\
