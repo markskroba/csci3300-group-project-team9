@@ -1,7 +1,7 @@
 '''Testing main_screen_wrapper.py, which is the functions that main_screen uses'''
 from main_screen_wrapper import MainWrapper
 
-wrapper = MainWrapper("test_data.json")
+wrapper = MainWrapper("../testing/test_data.json")
 question_list = []
 for data_question in wrapper.database.questions:
     question_list.append(data_question)
@@ -10,7 +10,7 @@ def test_get_details_false():
     '''Asserts that a question that doesnt exist doesnt have any details returned'''
     question = "Not in list"
     result = wrapper.get_details(question)
-    assert not result
+    assert not result #result == []
 
 def test_get_details_true():
     '''Asserts that a question that does exist has proper details returned'''
@@ -23,7 +23,7 @@ def test_create_buttons_size():
     '''Asserts that the 2D array of buttons is the right dimensions and non-empty'''
     row_size = 3
     result = wrapper.create_buttons(row_size)
-    assert result
+    assert result #result != []
     assert len(result[0]) == 3
     for item in result:
         assert len(item) <= row_size
@@ -51,3 +51,9 @@ def test_filtered_buttons_difficulty():
             assert item.difficulty != '5'
         if item in clean:
             assert item.difficulty != '5'
+
+test_get_details_false()
+test_get_details_true()
+test_create_buttons_size()
+test_filtered_buttons_type()
+test_filtered_buttons_difficulty()
