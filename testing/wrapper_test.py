@@ -1,7 +1,9 @@
 '''Testing main_screen_wrapper.py, which is the functions that main_screen uses'''
 from main_screen_wrapper import MainWrapper
+import os
 
-wrapper = MainWrapper("../testing/test_data.json")
+print(os.getcwd())
+wrapper = MainWrapper("test_data.json")
 question_list = []
 for data_question in wrapper.database.questions:
     question_list.append(data_question)
