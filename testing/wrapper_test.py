@@ -1,6 +1,6 @@
 '''Testing main_screen_wrapper.py, which is the functions that main_screen uses'''
-from main_screen_wrapper import MainWrapper
 import os
+from main_screen_wrapper import MainWrapper
 
 print(os.getcwd())
 wrapper = MainWrapper("test_data.json")
