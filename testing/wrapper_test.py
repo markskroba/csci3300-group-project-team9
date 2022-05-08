@@ -2,8 +2,8 @@
 import os
 from main_screen_wrapper import MainWrapper
 
-print(os.getcwd())
-wrapper = MainWrapper("test_data.json")
+wrapper = MainWrapper("/home/runner/work/csci3300-group-project-team9/"\
+    "csci3300-group-project-team9/testing/test_data.json")
 question_list = []
 for data_question in wrapper.database.questions:
     question_list.append(data_question)
