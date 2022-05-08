@@ -3,14 +3,14 @@ from main_screen_wrapper import MainWrapper
 
 wrapper = MainWrapper("test_data.json")
 question_list = []
-for question in wrapper.database.questions:
-    question_list.append(question)
+for data_question in wrapper.database.questions:
+    question_list.append(data_question)
 
 def test_get_details_false():
     '''Asserts that a question that doesnt exist doesnt have any details returned'''
     question = "Not in list"
     result = wrapper.get_details(question)
-    assert result is []
+    assert not result
 
 def test_get_details_true():
     '''Asserts that a question that does exist has proper details returned'''
@@ -23,7 +23,7 @@ def test_create_buttons_size():
     '''Asserts that the 2D array of buttons is the right dimensions and non-empty'''
     row_size = 3
     result = wrapper.create_buttons(row_size)
-    assert result is not []
+    assert result
     assert len(result[0]) == 3
     for item in result:
         assert len(item) <= row_size
